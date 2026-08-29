@@ -1,26 +1,132 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Design tokens.
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  Neutrals follow the naming already used in Cohorta's brand reference
+  (ground/surface/ink/muted/line) so this stays legible against that
+  document. --clay is the one warm accent — the brand doc proposes it but
+  says explicitly it isn't decided yet. Swap this single value once Steve
+  confirms; nothing else needs to change.
+
+  Headings use Roboto Black 900, lowercase (Lomi Lomi standard). Body/UI
+  uses Source Sans 3 — chosen in the brand doc specifically for an older,
+  less digitally-confident audience. Keep that pairing; don't drift.
+*/
+:root {
+  --ground: #f7f6f4;
+  --surface: #ffffff;
+  --surface-2: #f1efec;
+  --ink: #14181f;
+  --ink-2: #39424e;
+  --muted: #5a6472;
+  --faint: #8a93a0;
+  --line: #e3dfda;
+
+  /* Placeholder brand accent — not yet signed off, see comment above. */
+  --clay: #a84c22;
+  --clay-soft: #f5e7df;
+  --clay-ink: #8a3d1b;
+
+  --good: #2f6b45;
+  --good-soft: #e4f0e7;
+  --bad: #a32a2a;
+  --bad-soft: #f8e5e3;
+
+  --shadow: 0 1px 2px rgb(20 24 31 / 0.05), 0 10px 28px rgb(20 24 31 / 0.06);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --ground: #0e1116;
+    --surface: #161b22;
+    --surface-2: #1e242c;
+    --ink: #edeae6;
+    --ink-2: #d3cec8;
+    --muted: #9ba3ae;
+    --faint: #78818e;
+    --line: #252c35;
+
+    --clay: #e08b5a;
+    --clay-soft: #2a1a12;
+    --clay-ink: #f0a87c;
+
+    --good: #6fcb92;
+    --good-soft: #12251a;
+    --bad: #f08a80;
+    --bad-soft: #2a1513;
+
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 10px 28px rgb(0 0 0 / 0.35);
   }
 }
 
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-clay: var(--clay);
+  --color-clay-soft: var(--clay-soft);
+  --color-clay-ink: var(--clay-ink);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+
+}
+
+/* Font stacks — self-hosted via @fontsource, imported in app/layout.tsx. */
+:root {
+  --font-heading: "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 900;
+  text-transform: lowercase;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+/* Absolute layout stability: no shifting on load — fonts are self-hosted via
+   next/font, and font-display swap is handled for us, but this keeps any
+   fallback swap from bumping content. */
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 2px;
 }

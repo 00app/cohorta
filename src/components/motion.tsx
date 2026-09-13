@@ -146,6 +146,16 @@ export function SplitReveal({
 // A soft, slow drift tied to scroll position, driven by motion's useScroll
 // (replaces a hand-rolled requestAnimationFrame loop) — for decorative
 // background shapes only.
+//
+// z-10 is baked in here rather than left to each call site: every caller
+// positions these absolutely, over a Container that comes later in the
+// DOM. With z-index left at auto, painting order falls back to DOM order,
+// so the Container's own text — later in the markup, same stacking level —
+// painted on top and swallowed any bubble/icon whose box overlapped it
+// (e.g. the hero's "it's a match" bubble sitting behind its lede
+// paragraph). A fixed z-10 makes every floating decoration win that
+// paint order regardless of where it's placed on the page, which is the
+// point of "floating" in front of the content.
 export function Parallax({
   children,
   speed = 0.15,
@@ -168,7 +178,7 @@ export function Parallax({
     <motion.div
       ref={ref}
       style={reduceMotion ? undefined : { y }}
-      className={className}
+      className={`z-10 ${className}`}
       aria-hidden="true"
     >
       {children}

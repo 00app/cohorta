@@ -14,7 +14,7 @@ import { nav } from "@/content/site";
 // of a shade of the same pink, so the interactive state actually reads as
 // a change rather than a slightly-different pink.
 const NAV_LINK_CLASSES =
-  "font-bold text-accent-ink uppercase tracking-wide transition-colors hover:text-ink";
+  "font-heading font-bold text-accent-ink uppercase tracking-wide transition-colors hover:text-ink";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);

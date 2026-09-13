@@ -45,6 +45,15 @@ export const applyPage = {
   h1: "Tell us about *your group*",
   lede:
     "Ten minutes on the phone is usually enough to know if this is worth your time. Fill this in and we'll get back to you — no obligation, no pressure.",
+  // TODO(gary): this promises real follow-up ("we'll be in touch within a
+  // couple of days"), but as of now nothing behind the form can make good
+  // on it — submitApplication (src/app/for-communities/apply/actions.ts)
+  // only console.logs the enquiry server-side, with no one watching that
+  // log. Verified live: submitting the form does return this message to
+  // the visitor while genuinely delivering nothing. Don't ship this copy
+  // until the action actually notifies someone (email/Slack/CRM row) —
+  // until then this is a lead-gen form that lies to the people who fill
+  // it in, which is worse than one that's visibly disabled.
   successMessage:
     "Got it — thank you. We'll be in touch within a couple of days.",
   fields: {

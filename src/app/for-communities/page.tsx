@@ -46,7 +46,7 @@ export default function ForCommunitiesPage() {
         </Container>
       </Section>
 
-      <Section className="bg-surface-2">
+      <Section tint>
         <Container>
           <div className="grid gap-6 sm:grid-cols-2">
             {ownerHome.points.map((point, i) => (

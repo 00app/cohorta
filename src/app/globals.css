@@ -67,6 +67,13 @@
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
+
+  /* --font-heading itself is set on <html> by next/font (app/layout.tsx),
+     not here — this just registers the same name as a Tailwind theme key so
+     `font-heading` generates as a utility, for the rare non-h1-h4 element
+     (e.g. the footer strapline) that needs Caacupe One without becoming an
+     actual heading. */
+  --font-heading: var(--font-heading);
 }
 
 /* Wrapped in Tailwind's own `base` layer (Tailwind v4 order: theme, base,
@@ -103,19 +110,15 @@
     font-weight: 400;
     text-transform: lowercase;
     letter-spacing: -0.01em;
-    line-height: 0.9;
-  }
-
-  /* Tighter still on the big display sizes — h3/h4 stay at 0.9, where the
-     type is small enough that 0.85 would start clipping descenders. */
-  h1,
-  h2 {
-    line-height: 0.85;
+    /* 0.75 on every heading level, h3/h4 included — tight enough that a
+       descender (g, y, j) on one line can graze the ascenders of the line
+       below at the smaller sizes. Deliberate, not an oversight: called for
+       explicitly, applied uniformly rather than carved out for h3/h4. */
+    line-height: 0.75;
   }
 
   /* h1 only, one step tighter than the -0.01em every heading gets: at
-     text-7xl/8xl/9xl the wider tracking reads looser than it should.
-     Line-height is untouched here — that's the h1, h2 rule above. */
+     text-7xl/8xl/9xl the wider tracking reads looser than it should. */
   h1 {
     letter-spacing: -0.02em;
   }
@@ -137,6 +140,30 @@
     outline: 3px solid var(--accent);
     outline-offset: 3px;
   }
+}
+
+/* For a flat-tinted section (bg-surface-2) sitting between two untinted
+   ones: without this, the tint just cuts off dead straight at the
+   section's own top/bottom edge — a hard line that reads exactly like the
+   dividers removed everywhere else on this site, just made of a color
+   change instead of a border. Fades the tint in/out over its own first and
+   last 96px instead of a hard stop, so the section blends into whatever
+   surrounds it rather than sitting in a visible box. */
+.fade-edge-y {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 96px,
+    black calc(100% - 96px),
+    transparent
+  );
+}
+
+/* Same idea, top edge only — for the footer, whose tint has nothing below
+   it to blend into (it's the last thing on the page) but does sit under
+   whatever section comes right before it. */
+.fade-edge-top {
+  mask-image: linear-gradient(to bottom, transparent, black 96px);
 }
 
 /* All four vary on the same four axes now — x/y, scale (the z/depth
@@ -215,36 +242,23 @@
   }
 }
 
-@keyframes gradient-flow {
+/* Logo mark only (components/logo.tsx) — a slow continuous breathe, icon
+   only, never the "cohorta." wordmark next to it: the icon can afford a
+   little life since its meaning doesn't depend on staying still, the
+   brand name in a persistent header shouldn't ever look like it's moving
+   on its own. No opacity change, unlike float-a/b/c — a header mark should
+   never dip toward invisible mid-cycle. */
+@keyframes logo-breathe {
   0%,
   100% {
-    background-position: 0% 50%;
+    transform: scale(1) rotate(0deg);
   }
   50% {
-    background-position: 100% 50%;
+    transform: scale(1.08) rotate(4deg);
   }
-}
-
-/* Primary button only (see buttonClasses in components/ui.tsx). The
-   gradient itself is declared here, unconditionally, so a
-   reduced-motion visitor still sees a gradient — just a still one; only
-   the animation that moves it lives inside the media query below, same
-   split as every floaty-a/b/c and twinkle class already uses. */
-.btn-gradient {
-  background-image: linear-gradient(
-    110deg,
-    var(--accent-ink),
-    var(--accent),
-    var(--accent-ink)
-  );
-  background-size: 220% 220%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .btn-gradient {
-    animation: gradient-flow 7s ease-in-out infinite;
-  }
-
   .floaty-a {
     animation: float-a 7s ease-in-out infinite;
   }
@@ -262,5 +276,8 @@
   }
   .bob-bubble {
     animation: bob-bubble 5s ease-in-out infinite;
+  }
+  .logo-breathe {
+    animation: logo-breathe 6s ease-in-out infinite;
   }
 }

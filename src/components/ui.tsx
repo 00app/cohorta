@@ -43,16 +43,12 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 // classes, since a plain <button> and a motion.create(Link) take it
 // differently.
 //
-// Contrast note, now that primary animates continuously between the two:
-// white text clears WCAG AA against --accent-ink (5.9:1) but only reaches
-// ~3.5:1 against the brighter --accent. That ratio needs "large text" (14pt
-// bold, ~18.6px) to pass AA — true when this button ran text-xl, no longer
-// true at the current fixed-height text-sm. Flagging rather than
-// unilaterally narrowing the gradient's range (the two colors were
-// specified explicitly) or changing the button height back (also
-// specified explicitly) — this is a real, currently-live AA gap on the
-// primary button's brighter phase, worth a deliberate call rather than a
-// silent fix.
+// Primary is solid --ink (the site's near-black) with white text — 21:1
+// contrast, comfortably clear of WCAG AA at any size. Was a slow animated
+// pink gradient (--accent-ink to --accent); that gradient's brighter phase
+// only reached ~3.5:1, an AA gap at this button's fixed-height text-sm.
+// Solid black-on-white was specified explicitly and, as a side effect,
+// removes that gap outright rather than needing a separate fix for it.
 //
 // Shadow (primary only) goes through Tailwind's shadow-md/shadow-lg
 // classes, not Framer's whileHover, for the same reason as Card: a native
@@ -63,18 +59,12 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 // transition-all/transition-colors, so it never adds a competing CSS
 // transition on `transform`: Framer already drives that via
 // useButtonMotion's inline style, and the two would otherwise fight.
-// Primary's background is .btn-gradient (defined in globals.css): a slow
-// animated linear-gradient between --accent-ink and --accent, which is why
-// there's no hover:bg-* swap here any more — the gradient already cycles
-// through both colors on its own, continuously, in every state including
-// hover. useButtonMotion's scale/lift still runs on hover same as ever; this
-// is a background running underneath it, not a replacement for it.
 export function buttonClasses(variant: "primary" | "secondary" = "primary") {
   const base =
     "inline-flex h-10 items-center justify-center gap-2 rounded-full px-5 text-sm tracking-wide uppercase font-black transition-[box-shadow,color] duration-300 ease-out disabled:pointer-events-none disabled:opacity-60";
   const styles =
     variant === "primary"
-      ? "btn-gradient text-white shadow-md hover:shadow-lg"
+      ? "bg-ink text-white shadow-md hover:shadow-lg"
       : // Was an outline (border-2 border-ink) — sitewide border removal
         // meant deleting that outright would leave it invisible, since it
         // was the button's entire visual definition. Tried bg-white/70 +
@@ -191,13 +181,37 @@ export function Section({
   children,
   className = "",
   id,
+  tint = false,
 }: {
   children: ReactNode;
   className?: string;
   id?: string;
+  // Renders the bg-surface-2 tint as its own masked backdrop layer instead
+  // of a plain background-color on the section itself. A flat color on the
+  // section would cut off dead straight at its top/bottom edge — exactly
+  // the hard-line look every other divider on this site was stripped of,
+  // just made of a color change instead of a border (see .fade-edge-y in
+  // globals.css). Kept off the section element itself so the fade-out
+  // can't ever dim actual content near the edge, only the tint behind it.
+  tint?: boolean;
 }) {
   return (
-    <section id={id} className={`py-20 sm:py-32 ${className}`}>
+    <section id={id} className={`relative py-20 sm:py-32 ${className}`}>
+      {tint && (
+        // -z-10, not just "no z-index": a position:absolute element with
+        // z-index:auto still paints *above* any plain static sibling
+        // regardless of DOM order (CSS stacking order puts positioned
+        // z-auto content ahead of in-flow static content, full stop) — it
+        // only looked fine here because Reveal's motion.div happens to
+        // carry an active `transform`, which is treated as position:relative
+        // for stacking purposes... except under prefers-reduced-motion,
+        // where Reveal's `initial={false}` means no transform is ever set,
+        // dropping this content back to plain static and right behind the
+        // tint. -z-10 (paired with the section's own `relative`, so it
+        // can't escape into some ancestor's stacking context) makes this
+        // correct regardless of whether Reveal's content is transformed.
+        <div aria-hidden="true" className="fade-edge-y absolute inset-0 -z-10 bg-surface-2" />
+      )}
       <Reveal>{children}</Reveal>
     </section>
   );

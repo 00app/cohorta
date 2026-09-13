@@ -8,7 +8,12 @@ import {
   useTransform,
 } from "motion/react";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
+// One shared motion language, used by both Reveal and SplitReveal, for the
+// "soft, floaty, airy" feel asked for site-wide: a spring rather than a
+// fixed-duration easing curve. Low stiffness + high-ish damping settles
+// without any bounce/overshoot — it just drifts up and comes gently to
+// rest, like something settling in air rather than snapping into place.
+const FLOAT_SPRING = { type: "spring" as const, stiffness: 80, damping: 16, mass: 0.8 };
 
 // Fades content up into place the moment it scrolls into view, via Framer
 // Motion's whileInView (replaces a hand-rolled IntersectionObserver).
@@ -34,10 +39,10 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 32 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10% 0px" }}
-      transition={{ duration: 0.8, delay: delay / 1000, ease: EASE }}
+      transition={{ ...FLOAT_SPRING, delay: delay / 1000 }}
     >
       {children}
     </motion.div>
@@ -117,21 +122,23 @@ export function SplitReveal({
       whileInView="show"
       viewport={{ once: true, margin: "-10% 0px" }}
       variants={{
-        show: { transition: { staggerChildren: 0.035, delayChildren: delay / 1000 } },
+        // 0.05, up from a tighter 0.035: slow enough that each word visibly
+        // rises on its own beat rather than reading as one ripple.
+        show: { transition: { staggerChildren: 0.05, delayChildren: delay / 1000 } },
       }}
     >
       {words.map((w, i) => (
         // The space between words is a plain text node, a sibling of the
         // animated span, not baked inside it — an inline-block box (needed
-        // so `y` transforms the word as a unit) can have trailing
+        // so `y`/`scale` transforms the word as a unit) can have trailing
         // whitespace collapsed by the browser, which would silently glue
         // words together.
         <span key={i}>
           <motion.span
             className={`inline-block ${w.accent ? "text-accent" : ""}`}
             variants={{
-              hidden: { opacity: 0, y: 20 },
-              show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+              hidden: { opacity: 0, y: 28, scale: 0.92 },
+              show: { opacity: 1, y: 0, scale: 1, transition: FLOAT_SPRING },
             }}
           >
             {w.text}

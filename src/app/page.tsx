@@ -62,7 +62,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      <Section className="bg-surface-2">
+      <Section tint>
         <Container>
           <div className="grid gap-8 sm:grid-cols-3">
             {memberHome.pillars.map((pillar, i) => (
@@ -94,7 +94,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      <Section className="relative overflow-hidden bg-surface-2">
+      <Section className="overflow-hidden" tint>
         <Parallax speed={0.14} className="pointer-events-none absolute -top-6 right-[6%] hidden lg:block">
           <IconSparkle className="twinkle h-10 w-10 text-accent" />
         </Parallax>

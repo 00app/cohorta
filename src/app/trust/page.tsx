@@ -18,7 +18,7 @@ export default function TrustPage() {
   return (
     <Section className="relative overflow-hidden pt-20 sm:pt-28">
       <Parallax speed={0.12} className="pointer-events-none absolute top-20 right-[10%] hidden lg:block">
-        <IconHeart className="floaty-a h-24 w-24 text-accent/25" />
+        <IconHeart className="heart-pulse h-24 w-24 text-accent/25" />
       </Parallax>
       <Parallax speed={-0.14} className="pointer-events-none absolute top-[65%] right-[4%] hidden lg:block">
         <IconDots className="floaty-c h-12 w-12 text-accent" />

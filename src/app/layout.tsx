@@ -25,6 +25,7 @@ const roboto = Roboto({
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AmbientBackground } from "@/components/ambient-background";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { isLaunched, siteUrl, siteName } from "@/lib/config";
 import { seo } from "@/content/site";
 
@@ -69,6 +70,7 @@ export default function RootLayout({
       className={`${caacupeOne.variable} ${roboto.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-ground text-ink">
+        <SmoothScroll />
         <AmbientBackground />
         <SiteHeader />
         <main className="flex-1">{children}</main>

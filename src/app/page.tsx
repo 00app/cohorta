@@ -25,7 +25,7 @@ export default function HomePage() {
           <IconRing className="spin-slow h-24 w-24 text-ink/15" />
         </Parallax>
         <Parallax speed={0.18} className="pointer-events-none absolute top-[38%] left-[3%] hidden md:block">
-          <IconHeart className="floaty-b h-12 w-12 text-accent/40" />
+          <IconHeart className="heart-pulse h-12 w-12 text-accent/40" />
         </Parallax>
         <Parallax speed={-0.1} className="pointer-events-none absolute top-4 left-[38%] hidden lg:block">
           <ChatBubble tone="soft" tilt="-6deg">

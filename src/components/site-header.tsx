@@ -31,7 +31,12 @@ export function SiteHeader() {
           <Logo />
         </Link>
 
-        <nav className="hidden flex-1 items-center justify-end gap-x-7 text-base md:flex">
+        {/* gap/size step up at lg: at md (768-1023px) three primary links,
+            the owner link and the CTA button, at gap-x-7/text-base, ran
+            wider than a tablet-width Container — the links crowded the CTA
+            and could wrap. Tighter gap and smaller text through that band,
+            opening back up once lg has the room. */}
+        <nav className="hidden flex-1 items-center justify-end gap-x-4 text-sm md:flex lg:gap-x-7 lg:text-base">
           {nav.primaryLinks.map((link) => (
             <Link key={link.href} href={link.href} className={NAV_LINK_CLASSES}>
               {link.label}

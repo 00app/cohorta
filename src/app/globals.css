@@ -87,9 +87,10 @@
     box-sizing: border-box;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  /* No scroll-behavior: smooth here — Lenis (components/smooth-scroll.tsx)
+     now owns all scroll easing. The two fight each other on an anchor jump
+     (browser-native smoothing racing Lenis's own rAF loop), so this site
+     picks one owner rather than layering both. */
 
   body {
     background: var(--ground);
@@ -258,6 +259,21 @@
   }
 }
 
+/* Heart icons only (page.tsx hero, trust/page.tsx, site-footer.tsx) — a
+   slow pulse instead of float-a/b/c's drift, so the one icon on this site
+   that's actually shaped like a heartbeat reads as one. Single gentle
+   beat, not a double lub-dub: at the footer's h-44 sign-off size a
+   sharper two-stage beat read as a glitch rather than a pulse. */
+@keyframes heart-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.09);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .floaty-a {
     animation: float-a 7s ease-in-out infinite;
@@ -279,5 +295,9 @@
   }
   .logo-breathe {
     animation: logo-breathe 6s ease-in-out infinite;
+  }
+  .heart-pulse {
+    animation: heart-pulse 2.6s ease-in-out infinite;
+    transform-origin: 50% 62%;
   }
 }

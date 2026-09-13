@@ -52,15 +52,25 @@ export function SiteFooter() {
 
           {footer.columns.map((col) => (
             <div key={col.heading}>
-              <p className="text-xs font-extrabold tracking-[0.15em] text-ink uppercase">
+              <p className="text-xs leading-[0.95] font-extrabold tracking-[0.15em] text-ink uppercase">
                 {col.heading}
               </p>
+              {/* leading-[0.85]/tracking-normal: this column's body
+                  line-height (1.55, from the global body rule) and
+                  tracking-wide (0.025em) read fine for prose but far too
+                  loose for a short wrapped link like "Bring Cohorta to
+                  your group" set in all caps — the letters were visibly
+                  spread and the gap between wrapped lines wider than the
+                  gap to the next link entirely. Tighter than the first
+                  pass at leading-[0.95], which still read as too loose
+                  once seen next to real wrapped copy, not just in
+                  isolation. */}
               <ul className="mt-4 space-y-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="font-bold text-muted uppercase tracking-wide transition-colors hover:text-accent-ink"
+                      className="font-bold leading-[0.85] tracking-normal text-muted uppercase transition-colors hover:text-accent-ink"
                     >
                       {link.label}
                     </Link>

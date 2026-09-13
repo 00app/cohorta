@@ -26,7 +26,7 @@ export default function HowItWorksPage() {
       <Parallax speed={-0.1} className="pointer-events-none absolute top-[55%] right-[18%] hidden lg:block">
         <IconSparkle className="twinkle h-12 w-12 text-accent" />
       </Parallax>
-      <Parallax speed={0.1} className="pointer-events-none absolute top-6 left-[6%] hidden md:block">
+      <Parallax speed={0.1} pop className="pointer-events-none absolute top-6 left-[6%] hidden md:block">
         <ChatBubble tone="soft" tilt="-5deg">
           about ten minutes
         </ChatBubble>

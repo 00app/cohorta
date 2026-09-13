@@ -33,7 +33,7 @@ export default function HomePage() {
         <Parallax speed={-0.15} className="pointer-events-none absolute top-[58%] right-[6%] hidden sm:block">
           <IconRing className="spin-slow h-24 w-24 text-ink/15" />
         </Parallax>
-        <Parallax speed={-0.1} className="pointer-events-none absolute top-4 left-[38%] hidden lg:block">
+        <Parallax speed={-0.1} pop className="pointer-events-none absolute top-4 left-[38%] hidden lg:block">
           <ChatBubble tone="soft" tilt="-6deg">
             no strangers here
           </ChatBubble>
@@ -62,7 +62,7 @@ export default function HomePage() {
             not assumed, by actually checking 820px. Anchoring to the
             section's own (untouched) bottom padding instead means it
             can't drift into content above it as that content reflows. */}
-        <Parallax speed={0.16} className="pointer-events-none absolute bottom-10 left-[10%] hidden sm:block">
+        <Parallax speed={0.16} pop className="pointer-events-none absolute bottom-10 left-[10%] hidden sm:block">
           <ChatBubble tone="navy" tilt="4deg">
             it&apos;s a match
           </ChatBubble>
@@ -133,7 +133,7 @@ export default function HomePage() {
         <Parallax speed={0.1} className="pointer-events-none absolute -right-20 top-10 hidden lg:block">
           <IconBubble className="floaty-a h-28 w-28 text-accent/25" />
         </Parallax>
-        <Parallax speed={-0.12} className="pointer-events-none absolute top-4 right-[8%] hidden sm:block">
+        <Parallax speed={-0.12} pop className="pointer-events-none absolute top-4 right-[8%] hidden sm:block">
           <ChatBubble tone="pink" tilt="5deg">
             same group as you
           </ChatBubble>

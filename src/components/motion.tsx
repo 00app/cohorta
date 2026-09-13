@@ -289,14 +289,29 @@ export function SplitReveal({
 // the entrance's job alone. Uses the same useReveal hook as
 // Reveal/SplitReveal, so a bubble already on screen at load fades in
 // immediately instead of needing a scroll to be noticed at all.
+//
+// `pop`: opacity alone, it turns out, still reads as a snap for chat
+// bubbles specifically — every ChatBubble instance site-wide got flagged
+// for it again after the fix above landed. The FLOAT_SPRING transition on
+// opacity is genuinely smooth (checked frame-by-frame), it's just fast
+// enough, with nothing else moving, that a pure fade from invisible to
+// visible reads as an on/off flip rather than an arrival — the same
+// spring on Reveal doesn't have this problem because the accompanying
+// y-translate gives the eye something to track settling into place.
+// Scale is the property to pair opacity with here rather than y, since y
+// is already the scroll-drift's own job (see above) — this only opts in
+// per call site, so icons/illustrations using the plain fade keep their
+// already-verified behavior untouched.
 export function Parallax({
   children,
   speed = 0.15,
   className = "",
+  pop = false,
 }: {
   children?: ReactNode;
   speed?: number;
   className?: string;
+  pop?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
@@ -307,13 +322,15 @@ export function Parallax({
   const range = 320 * speed;
   const y = useTransform(scrollYProgress, [0, 1], [range, -range]);
   const controls = useAnimationControls();
-  useReveal(ref, reduceMotion, () => controls.start({ opacity: 1, transition: FLOAT_SPRING }));
+  useReveal(ref, reduceMotion, () =>
+    controls.start(pop ? { opacity: 1, scale: 1, transition: FLOAT_SPRING } : { opacity: 1, transition: FLOAT_SPRING }),
+  );
 
   return (
     <motion.div
       ref={ref}
       style={reduceMotion ? undefined : { y }}
-      initial={reduceMotion ? false : { opacity: 0 }}
+      initial={reduceMotion ? false : pop ? { opacity: 0, scale: 0.85 } : { opacity: 0 }}
       animate={controls}
       className={`z-10 ${className}`}
       aria-hidden="true"

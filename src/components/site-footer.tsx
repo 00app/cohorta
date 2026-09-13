@@ -70,7 +70,7 @@ export function SiteFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="font-bold leading-[0.85] tracking-normal text-muted lowercase transition-colors hover:text-accent-ink"
+                      className="font-heading font-bold leading-[0.55] tracking-normal text-muted lowercase transition-colors hover:text-accent-ink"
                     >
                       {link.label}
                     </Link>

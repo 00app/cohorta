@@ -23,7 +23,7 @@ export default function TrustPage() {
       <Parallax speed={-0.14} className="pointer-events-none absolute top-[65%] right-[4%] hidden lg:block">
         <IconDots className="floaty-c h-12 w-12 text-accent" />
       </Parallax>
-      <Parallax speed={0.1} className="pointer-events-none absolute top-4 left-[4%] hidden md:block">
+      <Parallax speed={0.1} pop className="pointer-events-none absolute top-4 left-[4%] hidden md:block">
         <ChatBubble tone="pink" tilt="-4deg">
           nobody&apos;s watching
         </ChatBubble>

@@ -16,7 +16,7 @@ export function SiteFooter() {
         <Parallax speed={0.06} className="pointer-events-none flex justify-center">
           <IconHeartFilled className="floaty-a h-32 w-32 text-accent sm:h-44 sm:w-44" />
         </Parallax>
-        <p className="mt-4 text-lg font-bold text-ink-2 sm:text-xl">
+        <p className="mt-4 text-lg font-bold text-accent-ink sm:text-xl">
           {footer.tagline}
         </p>
       </div>
@@ -37,7 +37,7 @@ export function SiteFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="font-bold text-muted transition-colors hover:text-accent-ink"
+                      className="font-bold text-muted uppercase tracking-wide transition-colors hover:text-accent-ink"
                     >
                       {link.label}
                     </Link>

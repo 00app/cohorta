@@ -43,37 +43,19 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 // classes, since a plain <button> and a motion.create(Link) take it
 // differently.
 //
-// Primary is solid --ink (the site's near-black) with white text — 21:1
-// contrast, comfortably clear of WCAG AA at any size. Was a slow animated
-// pink gradient (--accent-ink to --accent); that gradient's brighter phase
-// only reached ~3.5:1, an AA gap at this button's fixed-height text-sm.
-// Solid black-on-white was specified explicitly and, as a side effect,
-// removes that gap outright rather than needing a separate fix for it.
-//
-// Shadow (primary only) goes through Tailwind's shadow-md/shadow-lg
-// classes, not Framer's whileHover, for the same reason as Card: a native
-// CSS transition can animate between two var()-based box-shadow values,
-// Framer's JS interpolator can't resolve the custom property to do the
-// same. transition-[...] lists box-shadow and color explicitly — the only
-// two properties either variant actually changes on hover — rather than
-// transition-all/transition-colors, so it never adds a competing CSS
-// transition on `transform`: Framer already drives that via
-// useButtonMotion's inline style, and the two would otherwise fight.
+// "Ink & Blush" pass: pill+shadow replaced with the reviewed stamp
+// treatment — a two-ring rubber-stamp shape (.stamp/.stamp::before in
+// globals.css) that fills solid with its own ink colour on hover/press
+// instead of stepping a shadow. Primary is brick red, secondary is ink
+// black (per the "primary red, secondary black" direction) — both fill
+// to --surface-toned text on press, which stays comfortably clear of
+// WCAG AA since --accent and --ink are both dark enough for light text
+// at this weight/size. No speckle/noise texture on these: tried in the
+// mockup review and cut as too much against legibility.
 export function buttonClasses(variant: "primary" | "secondary" = "primary") {
   const base =
-    "inline-flex h-10 items-center justify-center gap-2 rounded-full px-5 text-sm tracking-wide uppercase font-black transition-[box-shadow,color] duration-300 ease-out disabled:pointer-events-none disabled:opacity-60";
-  const styles =
-    variant === "primary"
-      ? "bg-ink text-white shadow-md hover:shadow-lg"
-      : // Was an outline (border-2 border-ink) — sitewide border removal
-        // meant deleting that outright would leave it invisible, since it
-        // was the button's entire visual definition. Tried bg-white/70 +
-        // backdrop-blur first; over the hero's own pale pink/white ambient
-        // gradient it had almost no visible contrast and the pill shape
-        // disappeared entirely, leaving what looked like bare text. --
-        // surface-2 is a distinct enough blue tint against that background
-        // to actually read as a button at rest, not just on hover.
-        "bg-surface-2 text-ink hover:text-accent-ink";
+    "stamp inline-flex h-10 items-center justify-center gap-2 px-5 text-sm tracking-wide uppercase font-black disabled:pointer-events-none disabled:opacity-60";
+  const styles = variant === "primary" ? "stamp--primary" : "stamp--secondary";
   return `${base} ${styles}`;
 }
 
@@ -110,7 +92,12 @@ export function Button({
   const classes = `${buttonClasses(variant)} ${className}`;
   const buttonMotion = useButtonMotion();
 
-  const link = external ? (
+  // No glow wrapper any more (there used to be a blurred bg-accent span
+  // behind primary buttons, shown on hover): the stamp already changes on
+  // hover by filling solid with its own ink colour, and a soft blur glow
+  // behind a flat-inked stamp read as an extra effect competing with that
+  // press, not reinforcing it.
+  return external ? (
     <motion.a
       href={href}
       className={classes}
@@ -125,36 +112,19 @@ export function Button({
       {children}
     </MotionLink>
   );
-
-  if (variant !== "primary") return link;
-
-  // Glow sits behind the link purely via DOM order (it's declared first,
-  // no z-index) — same reasoning as AmbientBackground: a negative z-index
-  // here risks landing behind an ancestor's own background in some
-  // stacking contexts, where source order behind a plain z-index-less
-  // sibling always works. group/group-hover picks up hovering the link
-  // itself, since :hover on a child also matches every ancestor.
-  return (
-    <span className="group relative inline-block">
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -inset-3 rounded-full bg-accent opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-40"
-      />
-      {link}
-    </span>
-  );
 }
 
-// No border — shadow-sm at rest, stepping to shadow-lg on hover, is what
-// now separates a card from the page, alongside the surface/surface-2
-// background contrast between a card and its section. Box-shadow
-// transitions via plain CSS (transition-shadow), not Framer's whileHover:
-// motion's JS interpolator can't meaningfully tween a target expressed as
-// var(--shadow-lg) — it doesn't resolve custom properties itself —
-// whereas a native CSS transition animates between two var()-based values
-// fine, because the browser resolves each to its computed value before
-// interpolating. The lift stays on whileHover since a spring is genuinely
-// worth it there.
+// "Postcard" treatment ("Ink & Blush" pass): the old shadow-lift (shadow-sm
+// stepping to shadow-lg on hover) is gone, replaced by a dashed inset
+// border — closer to a printed card than an app surface, and one less
+// thing separating a card from the page's own flatter, less "elevated"
+// language now. The border tints toward --accent on hover instead of the
+// shadow deepening, done as a plain CSS colour transition (before:...)
+// rather than through Framer, for the same reason the old shadow was:
+// hover/press motion still goes through whileHover (a spring genuinely
+// earns its keep there), but colour/shadow steps are native CSS so they
+// can transition between two var()-based values, which Framer's JS
+// interpolator can't resolve.
 export function Card({
   children,
   className = "",
@@ -165,8 +135,8 @@ export function Card({
   const reduceMotion = useReducedMotion();
   return (
     <motion.div
-      className={`rounded-2xl bg-surface p-8 shadow-sm transition-shadow duration-300 ease-out hover:shadow-lg sm:p-9 ${className}`}
-      whileHover={reduceMotion ? undefined : { y: -6 }}
+      className={`relative rounded-xl bg-surface p-8 before:pointer-events-none before:absolute before:inset-2 before:rounded-[10px] before:border before:border-dashed before:border-ink/20 before:transition-colors before:duration-300 before:content-[''] hover:before:border-accent/35 sm:p-9 ${className}`}
+      whileHover={reduceMotion ? undefined : { y: -4 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
     >
       {children}

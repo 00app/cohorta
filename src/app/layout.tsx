@@ -1,21 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto } from "next/font/google";
-import localFont from "next/font/local";
+import { Fraunces, Libre_Franklin } from "next/font/google";
 import "./globals.css";
 
-// Both self-hosted via next/font: fetched and served from this origin at
-// build time, so there's no third-party font request at runtime and nothing
-// extra for the CSP to allow-list.
-// Headings: Caacupe One. Not in next/font/google's bundled catalog, so it's
-// pulled in as a local file (fetched once from Google Fonts' CDN, itself
-// OFL-licensed) rather than a googleapis.com <link>.
-const caacupeOne = localFont({
-  src: "./fonts/CaacupeOne-Regular.woff2",
+// Both self-hosted via next/font/google: fetched and served from this
+// origin at build time, so there's no third-party font request at runtime
+// and nothing extra for the CSP to allow-list (font-src 'self' in
+// src/proxy.ts already covers this — same as it did for the previous
+// Caacupe One/Roboto pair, just no longer via next/font/local).
+// Headings: Fraunces, a variable optical-size family — opsz gives it real
+// display-weight character at heading sizes without a separate cut.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: "variable",
   variable: "--font-heading",
   display: "swap",
 });
-// Body/UI/CTAs/labels: Roboto.
-const roboto = Roboto({
+// Body/UI/CTAs/labels: Libre Franklin — a humanist grotesk, same
+// large-friendly reasoning as the brand's Source Sans 3 pick, just paired
+// to Fraunces for this marketing site rather than reusing the app's own
+// body face verbatim.
+const libreFranklin = Libre_Franklin({
   subsets: ["latin"],
   weight: "variable",
   variable: "--font-body",
@@ -25,6 +29,7 @@ const roboto = Roboto({
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AmbientBackground } from "@/components/ambient-background";
+import { GrainOverlay } from "@/components/grain-overlay";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { isLaunched, siteUrl, siteName } from "@/lib/config";
 import { seo } from "@/content/site";
@@ -67,11 +72,12 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${caacupeOne.variable} ${roboto.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${libreFranklin.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-ground text-ink">
         <SmoothScroll />
         <AmbientBackground />
+        <GrainOverlay />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

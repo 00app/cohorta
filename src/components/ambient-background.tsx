@@ -9,9 +9,12 @@ import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/reac
 // differences from that reference, both because it's a dark-background
 // site and this one isn't:
 //   1. It uses mix-blend-mode: screen, which only ever lightens — reads
-//      fine against a dark page, would vanish entirely against our white
-//      ground. Dropped in favour of a plain low-opacity gradient, same
-//      technique the old scroll-tied blobs already used here.
+//      fine against a dark page, would vanish entirely against our
+//      blush-paper ground. Dropped in favour of a plain low-opacity
+//      gradient, same technique the old scroll-tied blobs already used
+//      here. Colours come straight from --accent/--accent-soft, so this
+//      retinted from hot pink to brick/dusty-rose with the "Ink & Blush"
+//      token pass — no changes needed in this file for that.
 //   2. Its glow snaps to the cursor via a CSS transition. This uses a
 //      spring (same FLOAT_SPRING family as components/motion.tsx) instead,
 //      for the same soft/floaty settle rather than a linear catch-up.

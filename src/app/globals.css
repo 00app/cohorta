@@ -1,46 +1,51 @@
 @import "tailwindcss";
 
 /*
-  Design tokens.
+  Design tokens — "ink & blush" pass.
 
-  Light mode only, by design brief: blue-white ground with a single vibrant
-  pink accent (--accent). No dark variant — the site should look the same
+  Replaces the original blue-white/hot-pink SaaS palette with a warm
+  blush-paper ground and a brick-red accent, per the direction reviewed
+  as the "Ink & Blush" mockup. Still light-mode only, by the original
+  design brief — no dark variant, the site should look the same
   regardless of OS theme.
 
-  Headings use Caacupe One, lowercase. Body/UI/CTAs/labels use Roboto.
-  Both are self-hosted via next/font (see app/layout.tsx), which supplies
-  --font-heading and --font-body as CSS variables — not redeclared here.
+  Headings use Fraunces, lowercase. Body/UI/CTAs/labels use Libre
+  Franklin. Both are loaded via next/font/google (see app/layout.tsx),
+  which supplies --font-heading and --font-body as CSS variables — not
+  redeclared here. (Caacupe One and Roboto, and the local Caacupe woff2
+  under app/fonts, are no longer referenced — left in place rather than
+  deleted, in case this direction gets reverted.)
 */
 :root {
-  --ground: #ffffff;
-  --surface: #ffffff;
-  --surface-2: #f2f4ff;
-  --ink: #0d1240;
-  --ink-2: #33397d;
-  --muted: #5b6099;
-  --faint: #9aa0d1;
-  --line: #e1e4f7;
+  --ground: #f1dbd0;
+  --surface: #fbf1e6;
+  --surface-2: #e9c9ba;
+  --ink: #241b16;
+  --ink-2: #4a3a32;
+  --muted: #6b5a50;
+  --faint: #a9877a;
+  --line: rgba(36, 27, 22, 0.16);
 
-  --accent: #ff2d87;
-  --accent-soft: #ffe3f1;
-  --accent-ink: #c11267;
+  --accent: #a1332a;
+  --accent-soft: #dda99c;
+  --accent-ink: #6e1d17;
 
   --good: #1f8a4c;
   --good-soft: #e4f7ec;
   --bad: #d92b2b;
   --bad-soft: #fbe6e6;
 
-  /* Elevation scale, tinted from --ink (rgb(13,18,64)) rather than pure
+  /* Elevation scale, tinted from --ink (rgb(36,27,22)) rather than pure
      black — a shadow this light-mode-only site actually uses (Card, Button
      hover) should read as "lifted off this page's own ink", not generic.
      sm: barely there, just enough to separate from the page. md: "just
      lifted off the page" (Card resting state). lg: "clearly floating"
      (Card/Button hover). */
-  --shadow-sm: 0 1px 2px rgba(13, 18, 64, 0.06);
+  --shadow-sm: 0 1px 2px rgba(36, 27, 22, 0.07);
   --shadow-md:
-    0 1px 2px rgba(13, 18, 64, 0.06), 0 8px 24px -8px rgba(13, 18, 64, 0.12);
+    0 1px 2px rgba(36, 27, 22, 0.07), 0 8px 24px -8px rgba(36, 27, 22, 0.14);
   --shadow-lg:
-    0 2px 4px rgba(13, 18, 64, 0.08), 0 16px 40px -12px rgba(13, 18, 64, 0.18);
+    0 2px 4px rgba(36, 27, 22, 0.09), 0 16px 40px -12px rgba(36, 27, 22, 0.2);
 }
 
 @theme inline {
@@ -71,7 +76,7 @@
   /* --font-heading itself is set on <html> by next/font (app/layout.tsx),
      not here — this just registers the same name as a Tailwind theme key so
      `font-heading` generates as a utility, for the rare non-h1-h4 element
-     (e.g. the footer strapline) that needs Caacupe One without becoming an
+     (e.g. the footer strapline) that needs Fraunces without becoming an
      actual heading. */
   --font-heading: var(--font-heading);
 }
@@ -107,8 +112,11 @@
   h3,
   h4 {
     font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-    /* Caacupe One only ships one weight; anything else gets faux-bolded. */
-    font-weight: 400;
+    font-optical-sizing: auto;
+    /* Fraunces is a real variable family (unlike the old Caacupe One,
+       which shipped a single weight) — 600 reads as a considered display
+       weight rather than a faux-bolded regular. */
+    font-weight: 600;
     text-transform: lowercase;
     letter-spacing: -0.01em;
     /* 0.75 on every heading level, h3/h4 included — tight enough that a
@@ -165,6 +173,61 @@
    whatever section comes right before it. */
 .fade-edge-top {
   mask-image: linear-gradient(to bottom, transparent, black 96px);
+}
+
+/* Stamp buttons (components/ui.tsx buttonClasses/Button) — "Ink & Blush"
+   pass. A two-ring rubber-stamp shape: the element's own border plus an
+   inset ring on ::before, both driven by --stamp-ink so the variant
+   classes below are one line each. Fills solid with --stamp-fill on
+   hover (text flips to --stamp-text) and one shade deeper on :active, so
+   a press reads as landing harder rather than just toggling a state. No
+   speckle/noise texture — tried against these in the mockup review and
+   cut: grain here fought the page's own grain right where legibility
+   matters most. */
+.stamp {
+  --stamp-ink: var(--ink);
+  --stamp-fill: var(--ink);
+  --stamp-fill-active: #120b08;
+  --stamp-text: var(--surface);
+  border: 2.5px solid var(--stamp-ink);
+  border-radius: 7px;
+  color: var(--stamp-ink);
+  background: transparent;
+  position: relative;
+  transition:
+    background-color 0.15s ease-out,
+    color 0.15s ease-out,
+    border-color 0.15s ease-out;
+}
+.stamp::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1.1px solid currentColor;
+  border-radius: 4px;
+  pointer-events: none;
+}
+.stamp:hover,
+.stamp:focus-visible {
+  background: var(--stamp-fill);
+  border-color: var(--stamp-fill);
+  color: var(--stamp-text);
+}
+.stamp:active {
+  background: var(--stamp-fill-active);
+  border-color: var(--stamp-fill-active);
+  color: var(--stamp-text);
+}
+/* Primary red, secondary black, per the reviewed direction. */
+.stamp--primary {
+  --stamp-ink: var(--accent);
+  --stamp-fill: var(--accent);
+  --stamp-fill-active: var(--accent-ink);
+}
+.stamp--secondary {
+  --stamp-ink: var(--ink);
+  --stamp-fill: var(--ink);
+  --stamp-fill-active: #120b08;
 }
 
 /* All four vary on the same four axes now — x/y, scale (the z/depth
@@ -274,7 +337,40 @@
   }
 }
 
+/* Grain overlay (components/grain-overlay.tsx): a fixed, full-viewport
+   noise layer, multiplied over the whole page. Tinted brick rather than
+   neutral black/grey — reads as "texture in this palette" rather than
+   generic photographic noise laid over the top. One layer only: an
+   earlier pass tried a second coarse fibre layer plus grain baked
+   directly into decorative artwork, and it was simply too much —
+   fighting for attention against the accent colour and hurting
+   legibility. This single flickering layer is deliberately quiet. */
+@keyframes grain-flicker {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  20% {
+    opacity: 0.4;
+  }
+  45% {
+    opacity: 0.33;
+  }
+  70% {
+    opacity: 0.41;
+  }
+  85% {
+    opacity: 0.34;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* Applied alongside a static Tailwind opacity utility (see
+     GrainOverlay) — that utility is the reduced-motion fallback value,
+     this animation is what varies around it when motion is allowed. */
+  .grain-flicker {
+    animation: grain-flicker 1.7s steps(5) infinite;
+  }
   .floaty-a {
     animation: float-a 7s ease-in-out infinite;
   }

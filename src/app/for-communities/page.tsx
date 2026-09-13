@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, Section, Eyebrow, Button, Card } from "@/components/ui";
+import { Container, Section, Eyebrow, Button, Card, Lede } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
 import { scatterTilt } from "@/lib/scatter-tilt";
 import { IconSparkle, IconBubble } from "@/components/icons";
@@ -34,11 +34,7 @@ export default function ForCommunitiesPage() {
         <Container className="relative">
           <Eyebrow>{ownerHome.eyebrow}</Eyebrow>
           <SplitReveal as="h1" text={ownerHome.h1} className="max-w-2xl text-7xl sm:text-8xl" />
-          <Reveal delay={120}>
-            <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
-              {ownerHome.lede}
-            </p>
-          </Reveal>
+          <Lede>{ownerHome.lede}</Lede>
           <div className="mt-10">
             <Button href={ownerHome.primaryCta.href}>
               {ownerHome.primaryCta.label}

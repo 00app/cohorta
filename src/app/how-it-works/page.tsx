@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, Section, Eyebrow, Card } from "@/components/ui";
+import { Container, Section, Eyebrow, Card, Lede } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
 import { scatterTilt } from "@/lib/scatter-tilt";
 import { IconRing, IconSparkle } from "@/components/icons";
@@ -36,11 +36,7 @@ export default function HowItWorksPage() {
       <Container className="relative">
         <Eyebrow>{howItWorks.eyebrow}</Eyebrow>
         <SplitReveal as="h1" text={howItWorks.h1} className="max-w-2xl text-7xl sm:text-8xl" />
-        <Reveal delay={120}>
-          <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
-            {howItWorks.lede}
-          </p>
-        </Reveal>
+        <Lede>{howItWorks.lede}</Lede>
 
         <ol className="mt-12 space-y-6">
           {howItWorks.steps.map((step, i) => (

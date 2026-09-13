@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Container, Section, Eyebrow } from "@/components/ui";
-import { Reveal, SplitReveal } from "@/components/motion";
+import { Container, Section, Eyebrow, Lede } from "@/components/ui";
+import { SplitReveal } from "@/components/motion";
 import { applyPage } from "@/content/owner";
 import { ApplyForm } from "./apply-form";
 
@@ -12,11 +12,7 @@ export default function ApplyPage() {
       <Container className="max-w-xl">
         <Eyebrow>{applyPage.eyebrow}</Eyebrow>
         <SplitReveal as="h1" text={applyPage.h1} className="text-7xl sm:text-8xl" />
-        <Reveal delay={120}>
-          <p className="mt-6 text-xl font-medium text-ink-2 sm:text-2xl">
-            {applyPage.lede}
-          </p>
-        </Reveal>
+        <Lede narrow={false}>{applyPage.lede}</Lede>
 
         <div className="mt-12">
           <ApplyForm />

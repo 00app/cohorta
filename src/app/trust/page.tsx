@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, Section, Eyebrow, Card } from "@/components/ui";
+import { Container, Section, Eyebrow, Card, Lede } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
 import { scatterTilt } from "@/lib/scatter-tilt";
 import { IconHeart, IconDots } from "@/components/icons";
@@ -33,11 +33,7 @@ export default function TrustPage() {
       <Container className="relative">
         <Eyebrow>{trust.eyebrow}</Eyebrow>
         <SplitReveal as="h1" text={trust.h1} className="max-w-2xl text-7xl sm:text-8xl" />
-        <Reveal delay={120}>
-          <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
-            {trust.lede}
-          </p>
-        </Reveal>
+        <Lede>{trust.lede}</Lede>
 
         <div className="mt-12 space-y-6">
           {trust.points.map((point, i) => (

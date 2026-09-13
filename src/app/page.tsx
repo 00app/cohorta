@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, Section, Eyebrow, Button, Card } from "@/components/ui";
+import { Container, Section, Eyebrow, Button, Card, Lede } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
 import { scatterTilt } from "@/lib/scatter-tilt";
 import { IconSparkle, IconRing, IconBubble, IconDots } from "@/components/icons";
@@ -87,11 +87,7 @@ export default function HomePage() {
                 text={memberHome.h1}
                 className="text-7xl sm:text-8xl lg:text-7xl xl:text-8xl"
               />
-              <Reveal delay={120}>
-                <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
-                  {memberHome.lede}
-                </p>
-              </Reveal>
+              <Lede>{memberHome.lede}</Lede>
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <Button href={memberHome.primaryCta.href} external>
                   {memberHome.primaryCta.label}

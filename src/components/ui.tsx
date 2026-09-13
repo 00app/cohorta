@@ -7,6 +7,26 @@ import { Reveal } from "./motion";
 
 const MotionLink = motion.create(Link);
 
+// The lede paragraph directly under a page's h1 — same fade-up-on-120ms-
+// delay treatment and type scale everywhere it appears. `narrow` defaults
+// on since most callers cap it at max-w-xl; the one caller whose own
+// Container is already narrow (the apply page) passes false.
+export function Lede({
+  children,
+  narrow = true,
+}: {
+  children: ReactNode;
+  narrow?: boolean;
+}) {
+  return (
+    <Reveal delay={120}>
+      <p className={`mt-6 ${narrow ? "max-w-xl " : ""}text-xl font-medium text-ink-2 sm:text-2xl`}>
+        {children}
+      </p>
+    </Reveal>
+  );
+}
+
 export function Container({
   children,
   className = "",

@@ -241,8 +241,14 @@ export function SplitReveal({
         // whitespace collapsed by the browser, which would silently glue
         // words together.
         <span key={i}>
+          {/* break-words: a backstop for long words at these display sizes
+              (e.g. "matchmaker" at text-7xl on a 390px viewport measured
+              ~434px wide, wider than the whole column) — without it,
+              inline-block refuses to break mid-word and the word silently
+              overflows past the section's overflow-hidden edge instead of
+              wrapping. */}
           <motion.span
-            className={`inline-block ${w.accent ? "text-accent" : ""}`}
+            className={`inline-block max-w-full break-words ${w.accent ? "text-accent" : ""}`}
             variants={{
               hidden: { opacity: 0, y: 28, scale: 0.92 },
               show: { opacity: 1, y: 0, scale: 1, transition: FLOAT_SPRING },

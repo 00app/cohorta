@@ -280,38 +280,30 @@ export function SplitReveal({
 // Fade-in on top of the drift, added after a chat bubble on the homepage
 // hero was visibly popping in at full opacity the instant it mounted —
 // there was no entrance animation here at all, only the continuous
-// scroll-linked position. Only opacity is animated for the entrance,
-// never y: the scroll-linked `y` MotionValue in `style` already owns that
-// property continuously, and having both `animate` and `style` drive the
-// same transform value is exactly the kind of two-things-fighting-over-
-// one-job bug this file already ran into once with whileInView+animate on
-// Reveal — opacity is untouched by the scroll drift, so it's free to be
-// the entrance's job alone. Uses the same useReveal hook as
-// Reveal/SplitReveal, so a bubble already on screen at load fades in
+// scroll-linked position. Uses the same useReveal hook as Reveal/
+// SplitReveal, so a decoration already on screen at load animates in
 // immediately instead of needing a scroll to be noticed at all.
 //
-// `pop`: opacity alone, it turns out, still reads as a snap for chat
-// bubbles specifically — every ChatBubble instance site-wide got flagged
-// for it again after the fix above landed. The FLOAT_SPRING transition on
-// opacity is genuinely smooth (checked frame-by-frame), it's just fast
-// enough, with nothing else moving, that a pure fade from invisible to
-// visible reads as an on/off flip rather than an arrival — the same
-// spring on Reveal doesn't have this problem because the accompanying
-// y-translate gives the eye something to track settling into place.
-// Scale is the property to pair opacity with here rather than y, since y
-// is already the scroll-drift's own job (see above) — this only opts in
-// per call site, so icons/illustrations using the plain fade keep their
-// already-verified behavior untouched.
+// Opacity is paired with scale (0.85 -> 1), not y: the scroll-linked `y`
+// MotionValue in `style` already owns that property continuously, and
+// having both `animate` and `style` drive the same transform value is
+// exactly the kind of two-things-fighting-over-one-job bug this file
+// already ran into once with whileInView+animate on Reveal. Originally
+// this was opacity-only, on the theory that icons/illustrations (unlike
+// chat bubbles) read fine without it — frame-by-frame instrumentation
+// proved that wrong: the FLOAT_SPRING transition on opacity alone is
+// genuinely smooth, it just reads as a flat on/off flip with nothing
+// else moving, for every kind of decoration this wraps, not only
+// bubbles. Scale gives the eye something to track settling into place,
+// same reason Reveal's y-translate does that job for headings/text.
 export function Parallax({
   children,
   speed = 0.15,
   className = "",
-  pop = false,
 }: {
   children?: ReactNode;
   speed?: number;
   className?: string;
-  pop?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
@@ -323,14 +315,14 @@ export function Parallax({
   const y = useTransform(scrollYProgress, [0, 1], [range, -range]);
   const controls = useAnimationControls();
   useReveal(ref, reduceMotion, () =>
-    controls.start(pop ? { opacity: 1, scale: 1, transition: FLOAT_SPRING } : { opacity: 1, transition: FLOAT_SPRING }),
+    controls.start({ opacity: 1, scale: 1, transition: FLOAT_SPRING }),
   );
 
   return (
     <motion.div
       ref={ref}
       style={reduceMotion ? undefined : { y }}
-      initial={reduceMotion ? false : pop ? { opacity: 0, scale: 0.85 } : { opacity: 0 }}
+      initial={reduceMotion ? false : { opacity: 0, scale: 0.85 }}
       animate={controls}
       className={`z-10 ${className}`}
       aria-hidden="true"

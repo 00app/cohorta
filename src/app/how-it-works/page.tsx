@@ -32,7 +32,12 @@ export default function HowItWorksPage() {
       <Parallax speed={-0.1} className="pointer-events-none absolute top-[55%] right-[18%] hidden lg:block">
         <IconSparkle className="twinkle h-12 w-12 text-accent" />
       </Parallax>
-      <Parallax speed={0.1} pop className="pointer-events-none absolute top-6 left-[6%] hidden md:block">
+      {/* top-12, not top-6: at top-6 this had only ~9px clearance to this
+          Section's own overflow-hidden edge — the ambient bob-bubble
+          animation's 10px upward travel was enough to clip it (confirmed
+          live). top-12 leaves real margin for both that and the
+          continuous scroll-parallax drift above it. */}
+      <Parallax speed={0.1} className="pointer-events-none absolute top-12 left-[6%] hidden md:block">
         <ChatBubble tone="soft" tilt="-5deg">
           about ten minutes
         </ChatBubble>

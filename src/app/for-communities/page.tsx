@@ -30,7 +30,11 @@ export default function ForCommunitiesPage() {
         <Parallax speed={-0.1} className="pointer-events-none absolute top-[50%] left-[4%] hidden lg:block">
           <IconBubble className="floaty-b h-24 w-24 text-ink/10" />
         </Parallax>
-        <Parallax speed={0.1} pop className="pointer-events-none absolute top-6 right-[6%] hidden md:block">
+        {/* top-12, not top-6: at top-6 this measured -8px clearance to
+            this Section's own overflow-hidden edge — already clipping,
+            confirmed live, before the ambient bob animation even moves
+            it further. top-12 leaves real margin. */}
+        <Parallax speed={0.1} className="pointer-events-none absolute top-12 right-[6%] hidden md:block">
           <ChatBubble tone="navy" tilt="6deg">
             zero admin
           </ChatBubble>

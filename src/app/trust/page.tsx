@@ -29,7 +29,11 @@ export default function TrustPage() {
       <Parallax speed={-0.14} className="pointer-events-none absolute top-[65%] right-[4%] hidden lg:block">
         <IconDots className="floaty-c h-12 w-12 text-accent" />
       </Parallax>
-      <Parallax speed={0.1} pop className="pointer-events-none absolute top-4 left-[4%] hidden md:block">
+      {/* top-10, not top-4: at top-4 this measured 0px clearance to this
+          Section's own overflow-hidden edge — already at the boundary,
+          confirmed live, before the ambient bob animation even moves it
+          further. top-10 leaves real margin. */}
+      <Parallax speed={0.1} className="pointer-events-none absolute top-10 left-[4%] hidden md:block">
         <ChatBubble tone="pink" tilt="-4deg">
           nobody&apos;s watching
         </ChatBubble>

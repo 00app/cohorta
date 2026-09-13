@@ -16,7 +16,7 @@ import { appUrl } from "@/lib/config";
 
 export const memberHome = {
   eyebrow: "no strangers. nobody watching.",
-  h1: "Meet people from the group you're already in",
+  h1: "Meet people from the group *you're already in*",
   lede:
     "Cohorta takes a community you're already part of and gives it a place to actually meet up — for dating, for friendship, for turning up to the next thing. Nobody outside your group gets in. Nobody in it can see what you're here for.",
   primaryCta: { href: appUrl, label: "Got a code? Get started", external: true },
@@ -60,7 +60,7 @@ export const memberHome = {
 
 export const howItWorks = {
   eyebrow: "how it works",
-  h1: "Nothing to download. About ten minutes to set up.",
+  h1: "Nothing to download. *About ten minutes* to set up.",
   lede:
     "Cohorta is a web app, not something from an app store. That trips a few people up the first time, so here's the whole thing, upfront.",
   steps: [
@@ -91,7 +91,7 @@ export const howItWorks = {
 
 export const trust = {
   eyebrow: "trust & privacy",
-  h1: "The person who runs your group can't see any of this",
+  h1: "The person who runs your group *can't see any of this*",
   lede:
     "This is the part of Cohorta that matters most, so we'd rather say it plainly than bury it in a policy page.",
   points: [
@@ -118,7 +118,7 @@ export const trust = {
 
 export const faq = {
   eyebrow: "faq",
-  h1: "Questions people actually ask",
+  h1: "Questions people *actually ask*",
   items: [
     {
       q: "Is this a dating app?",

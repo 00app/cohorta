@@ -1,18 +1,44 @@
 import type { Metadata } from "next";
 import { Container, Section, Eyebrow, Button, Card } from "@/components/ui";
+import { Reveal, SplitReveal, Parallax } from "@/components/motion";
+import { IconSparkle, IconBubble } from "@/components/icons";
+import { ChatBubble } from "@/components/chat-bubble";
 import { ownerHome } from "@/content/owner";
 
 export const metadata: Metadata = { title: "For group owners" };
 
+const TILT = [
+  "sm:-rotate-1",
+  "sm:rotate-1 sm:mt-8",
+  "sm:rotate-1 sm:-mt-2",
+  "sm:-rotate-2 sm:mt-6",
+];
+
 export default function ForCommunitiesPage() {
   return (
     <>
-      <Section className="pt-16 sm:pt-24">
-        <Container>
+      <Section className="relative overflow-hidden pt-20 sm:pt-28">
+        <Parallax speed={0.14} className="pointer-events-none absolute top-16 right-[10%] hidden lg:block">
+          <IconSparkle className="twinkle h-16 w-16 text-accent" />
+        </Parallax>
+        <Parallax speed={-0.1} className="pointer-events-none absolute top-[50%] left-[4%] hidden lg:block">
+          <IconBubble className="floaty-b h-24 w-24 text-ink/10" />
+        </Parallax>
+        <Parallax speed={0.1} className="pointer-events-none absolute top-6 right-[6%] hidden md:block">
+          <ChatBubble tone="navy" tilt="6deg">
+            zero admin
+          </ChatBubble>
+        </Parallax>
+
+        <Container className="relative">
           <Eyebrow>{ownerHome.eyebrow}</Eyebrow>
-          <h1 className="max-w-2xl text-4xl sm:text-5xl">{ownerHome.h1}</h1>
-          <p className="mt-5 max-w-xl text-lg text-muted">{ownerHome.lede}</p>
-          <div className="mt-8">
+          <SplitReveal as="h1" text={ownerHome.h1} className="max-w-2xl text-7xl sm:text-8xl" />
+          <Reveal delay={120}>
+            <p className="mt-6 max-w-xl text-xl font-medium text-muted sm:text-2xl">
+              {ownerHome.lede}
+            </p>
+          </Reveal>
+          <div className="mt-10">
             <Button href={ownerHome.primaryCta.href}>
               {ownerHome.primaryCta.label}
             </Button>
@@ -20,14 +46,16 @@ export default function ForCommunitiesPage() {
         </Container>
       </Section>
 
-      <Section className="border-t border-line bg-surface">
+      <Section className="bg-surface-2">
         <Container>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {ownerHome.points.map((point) => (
-              <Card key={point.title}>
-                <h2 className="text-lg">{point.title}</h2>
-                <p className="mt-2 text-sm text-muted">{point.body}</p>
-              </Card>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {ownerHome.points.map((point, i) => (
+              <Reveal key={point.title} delay={i * 110} className={TILT[i % TILT.length]}>
+                <Card>
+                  <h2 className="text-2xl">{point.title}</h2>
+                  <p className="mt-3 text-base text-muted">{point.body}</p>
+                </Card>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -35,9 +63,17 @@ export default function ForCommunitiesPage() {
 
       <Section>
         <Container>
-          <h2 className="text-2xl">{ownerHome.honest.heading}</h2>
-          <p className="mt-3 max-w-2xl text-muted">{ownerHome.honest.body}</p>
-          <div className="mt-8">
+          <SplitReveal
+            as="h2"
+            text={ownerHome.honest.heading}
+            className="max-w-2xl text-5xl sm:text-6xl"
+          />
+          <Reveal delay={120}>
+            <p className="mt-4 max-w-2xl text-lg text-muted">
+              {ownerHome.honest.body}
+            </p>
+          </Reveal>
+          <div className="mt-10">
             <Button href={ownerHome.primaryCta.href}>
               {ownerHome.primaryCta.label}
             </Button>

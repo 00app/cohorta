@@ -12,7 +12,7 @@
 
 export const ownerHome = {
   eyebrow: "run a community?",
-  h1: "Stop being the unofficial matchmaker of your own group",
+  h1: "Stop being the *unofficial matchmaker* of your own group",
   lede:
     "If your feed's full of people posting about themselves hoping someone gets in touch, if you're the one being asked to introduce people, and you're the one who picks up the complaints when it goes wrong — that's real work, and nobody's paying you for it. Cohorta takes it off your plate.",
   primaryCta: { href: "/for-communities/apply", label: "Talk to us" },
@@ -42,7 +42,7 @@ export const ownerHome = {
 
 export const applyPage = {
   eyebrow: "for group owners",
-  h1: "Tell us about your group",
+  h1: "Tell us about *your group*",
   lede:
     "Ten minutes on the phone is usually enough to know if this is worth your time. Fill this in and we'll get back to you — no obligation, no pressure.",
   successMessage:

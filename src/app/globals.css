@@ -3,61 +3,44 @@
 /*
   Design tokens.
 
-  Neutrals follow the naming already used in Cohorta's brand reference
-  (ground/surface/ink/muted/line) so this stays legible against that
-  document. --clay is the one warm accent — the brand doc proposes it but
-  says explicitly it isn't decided yet. Swap this single value once Steve
-  confirms; nothing else needs to change.
+  Light mode only, by design brief: blue-white ground with a single vibrant
+  pink accent (--accent). No dark variant — the site should look the same
+  regardless of OS theme.
 
-  Headings use Roboto Black 900, lowercase (Lomi Lomi standard). Body/UI
-  uses Source Sans 3 — chosen in the brand doc specifically for an older,
-  less digitally-confident audience. Keep that pairing; don't drift.
+  Headings use Caacupe One, lowercase. Body/UI/CTAs/labels use Roboto.
+  Both are self-hosted via next/font (see app/layout.tsx), which supplies
+  --font-heading and --font-body as CSS variables — not redeclared here.
 */
 :root {
-  --ground: #f7f6f4;
+  --ground: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f1efec;
-  --ink: #14181f;
-  --ink-2: #39424e;
-  --muted: #5a6472;
-  --faint: #8a93a0;
-  --line: #e3dfda;
+  --surface-2: #f2f4ff;
+  --ink: #0d1240;
+  --ink-2: #33397d;
+  --muted: #5b6099;
+  --faint: #9aa0d1;
+  --line: #e1e4f7;
 
-  /* Placeholder brand accent — not yet signed off, see comment above. */
-  --clay: #a84c22;
-  --clay-soft: #f5e7df;
-  --clay-ink: #8a3d1b;
+  --accent: #ff2d87;
+  --accent-soft: #ffe3f1;
+  --accent-ink: #c11267;
 
-  --good: #2f6b45;
-  --good-soft: #e4f0e7;
-  --bad: #a32a2a;
-  --bad-soft: #f8e5e3;
+  --good: #1f8a4c;
+  --good-soft: #e4f7ec;
+  --bad: #d92b2b;
+  --bad-soft: #fbe6e6;
 
-  --shadow: 0 1px 2px rgb(20 24 31 / 0.05), 0 10px 28px rgb(20 24 31 / 0.06);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ground: #0e1116;
-    --surface: #161b22;
-    --surface-2: #1e242c;
-    --ink: #edeae6;
-    --ink-2: #d3cec8;
-    --muted: #9ba3ae;
-    --faint: #78818e;
-    --line: #252c35;
-
-    --clay: #e08b5a;
-    --clay-soft: #2a1a12;
-    --clay-ink: #f0a87c;
-
-    --good: #6fcb92;
-    --good-soft: #12251a;
-    --bad: #f08a80;
-    --bad-soft: #2a1513;
-
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 10px 28px rgb(0 0 0 / 0.35);
-  }
+  /* Elevation scale, tinted from --ink (rgb(13,18,64)) rather than pure
+     black — a shadow this light-mode-only site actually uses (Card, Button
+     hover) should read as "lifted off this page's own ink", not generic.
+     sm: barely there, just enough to separate from the page. md: "just
+     lifted off the page" (Card resting state). lg: "clearly floating"
+     (Card/Button hover). */
+  --shadow-sm: 0 1px 2px rgba(13, 18, 64, 0.06);
+  --shadow-md:
+    0 1px 2px rgba(13, 18, 64, 0.06), 0 8px 24px -8px rgba(13, 18, 64, 0.12);
+  --shadow-lg:
+    0 2px 4px rgba(13, 18, 64, 0.08), 0 16px 40px -12px rgba(13, 18, 64, 0.18);
 }
 
 @theme inline {
@@ -69,64 +52,215 @@
   --color-muted: var(--muted);
   --color-faint: var(--faint);
   --color-line: var(--line);
-  --color-clay: var(--clay);
-  --color-clay-soft: var(--clay-soft);
-  --color-clay-ink: var(--clay-ink);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
   --color-good: var(--good);
   --color-good-soft: var(--good-soft);
   --color-bad: var(--bad);
   --color-bad-soft: var(--bad-soft);
 
+  /* Same indirection pattern as --color-*: Tailwind's own shadow-sm/md/lg
+     keys, pointed at our tinted :root values above so shadow-sm/md/lg
+     generate as utilities using our scale instead of Tailwind's stock
+     pure-black one. */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
 }
 
-/* Font stacks — self-hosted via @fontsource, imported in app/layout.tsx. */
-:root {
-  --font-heading: "Roboto", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+/* Wrapped in Tailwind's own `base` layer (Tailwind v4 order: theme, base,
+   components, utilities) so utility classes — text-white on a <Link>, for
+   instance — can actually override these. A plain, unlayered rule in this
+   file would otherwise beat every Tailwind utility regardless of
+   specificity: unlayered CSS always wins over layered CSS, full stop. This
+   is exactly what broke button text color before this fix. */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    /* Caacupe One only ships one weight; anything else gets faux-bolded. */
+    font-weight: 400;
+    text-transform: lowercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+  }
+
+  /* Tighter still on the big display sizes — h3/h4 stay at 0.9, where the
+     type is small enough that 0.85 would start clipping descenders. */
+  h1,
+  h2 {
+    line-height: 0.85;
+  }
+
+  /* h1 only, one step tighter than the -0.01em every heading gets: at
+     text-7xl/8xl/9xl the wider tracking reads looser than it should.
+     Line-height is untouched here — that's the h1, h2 rule above. */
+  h1 {
+    letter-spacing: -0.02em;
+  }
+
+  /* Absolute layout stability: no shifting on load — fonts are self-hosted
+     via next/font, and font-display swap is handled for us, but this keeps
+     any fallback swap from bumping content. */
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
 }
 
-* {
-  box-sizing: border-box;
+/* All four vary on the same four axes now — x/y, scale (the z/depth
+   proxy: this is a 2D transform trick, not real perspective depth, flag
+   if true 3D is ever wanted instead) and opacity — but each keeps the
+   character it had before this pass: float-a's gentle diagonal drift
+   (translate + a modest grow), float-b's opposite diagonal (+ a shrink,
+   so it doesn't just read as float-a in reverse), float-c's bigger
+   3-phase scale swing, twinkle's tighter jitter with the biggest
+   scale/opacity pulse of the four. */
+@keyframes float-a {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(6px, -16px) rotate(6deg) scale(1.08);
+    opacity: 0.8;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+@keyframes float-b {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-10px, 14px) rotate(-8deg) scale(0.92);
+    opacity: 0.8;
+  }
 }
 
-body {
-  background: var(--ground);
-  color: var(--ink);
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
-  -webkit-text-size-adjust: 100%;
+@keyframes float-c {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  33% {
+    transform: translate(10px, 10px) rotate(4deg) scale(1.08);
+    opacity: 0.85;
+  }
+  66% {
+    transform: translate(-6px, -12px) rotate(-5deg) scale(0.93);
+    opacity: 0.7;
+  }
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 900;
-  text-transform: lowercase;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(0, 0) scale(0.85) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(3px, -4px) scale(1.15) rotate(12deg);
+  }
 }
 
-/* Absolute layout stability: no shifting on load — fonts are self-hosted via
-   next/font, and font-display swap is handled for us, but this keeps any
-   fallback swap from bumping content. */
-img,
-svg {
-  display: block;
-  max-width: 100%;
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-a {
-  color: inherit;
+@keyframes bob-bubble {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--bubble-tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--bubble-tilt, 0deg));
+  }
 }
 
-:focus-visible {
-  outline: 2px solid var(--clay);
-  outline-offset: 2px;
+@keyframes gradient-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Primary button only (see buttonClasses in components/ui.tsx). The
+   gradient itself is declared here, unconditionally, so a
+   reduced-motion visitor still sees a gradient — just a still one; only
+   the animation that moves it lives inside the media query below, same
+   split as every floaty-a/b/c and twinkle class already uses. */
+.btn-gradient {
+  background-image: linear-gradient(
+    110deg,
+    var(--accent-ink),
+    var(--accent),
+    var(--accent-ink)
+  );
+  background-size: 220% 220%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-gradient {
+    animation: gradient-flow 7s ease-in-out infinite;
+  }
+
+  .floaty-a {
+    animation: float-a 7s ease-in-out infinite;
+  }
+  .floaty-b {
+    animation: float-b 8.5s ease-in-out infinite;
+  }
+  .floaty-c {
+    animation: float-c 9s ease-in-out infinite;
+  }
+  .twinkle {
+    animation: twinkle 3.2s ease-in-out infinite;
+  }
+  .spin-slow {
+    animation: spin-slow 14s linear infinite;
+  }
+  .bob-bubble {
+    animation: bob-bubble 5s ease-in-out infinite;
+  }
 }

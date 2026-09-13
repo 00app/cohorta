@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Container } from "./ui";
+import { Container, Button } from "./ui";
+import { Logo } from "./logo";
 import { nav } from "@/content/site";
 
 // Two tracks (members / group owners) exist on this site, but the brand's
@@ -9,47 +10,44 @@ import { nav } from "@/content/site";
 // isn't a group owner never needs to notice it.
 export function SiteHeader() {
   return (
-    <header className="border-b border-line bg-surface">
-      <Container className="flex flex-wrap items-center justify-between gap-4 py-4">
-        <Link href="/" className="text-lg font-black lowercase tracking-tight">
-          cohorta<span className="text-clay">.</span>
+    // Permanent shadow-sm rather than a scroll-conditional one: it'd need
+    // turning this into a client component with its own scroll listener
+    // just to toggle one class, where a resting shadow-sm is already
+    // subtle enough not to read as "wrong" before any scrolling happens.
+    <header className="sticky top-0 z-10 bg-surface/90 shadow-sm backdrop-blur">
+      <Container
+        wide
+        className="flex flex-wrap items-center justify-between gap-4 py-5 md:flex-nowrap md:gap-6"
+      >
+        <Link href="/" className="shrink-0 text-xl">
+          <Logo />
         </Link>
 
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+        <nav className="flex flex-wrap items-center gap-x-7 gap-y-2 text-base md:flex-1 md:justify-end">
           {nav.primaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="font-medium text-muted hover:text-ink"
+              className="font-bold text-muted transition-colors hover:text-accent-ink"
             >
               {link.label}
             </Link>
           ))}
           <Link
             href={nav.ownerLink.href}
-            className="font-medium text-faint hover:text-ink"
+            className="font-bold text-faint transition-colors hover:text-accent-ink"
           >
             {nav.ownerLink.label}
           </Link>
         </nav>
 
-        {nav.memberCta.external ? (
-          <a
-            href={nav.memberCta.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-ground hover:bg-ink-2"
-          >
-            {nav.memberCta.label}
-          </a>
-        ) : (
-          <Link
-            href={nav.memberCta.href}
-            className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-ground hover:bg-ink-2"
-          >
-            {nav.memberCta.label}
-          </Link>
-        )}
+        <Button
+          href={nav.memberCta.href}
+          external={nav.memberCta.external}
+          className="shrink-0"
+        >
+          {nav.memberCta.label}
+        </Button>
       </Container>
     </header>
   );

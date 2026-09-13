@@ -2,21 +2,25 @@
 
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
+import { motion } from "motion/react";
 import { submitApplication, type ApplyState } from "./actions";
 import { applyPage } from "@/content/owner";
+import { buttonClasses, useButtonMotion } from "@/components/ui";
 
 const initialState: ApplyState = { status: "idle" };
 
 function SubmitButton() {
   const { pending } = useFormStatus();
+  const buttonMotion = useButtonMotion();
   return (
-    <button
+    <motion.button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-[0.95rem] font-semibold text-ground transition-colors hover:bg-ink-2 disabled:opacity-60"
+      className={buttonClasses()}
+      {...buttonMotion}
     >
       {pending ? "Sending…" : applyPage.submitLabel}
-    </button>
+    </motion.button>
   );
 }
 
@@ -75,12 +79,12 @@ function Field({
   rows?: number;
 }) {
   const baseClasses =
-    "mt-1 w-full rounded-lg border border-line bg-surface px-4 py-2.5 text-ink placeholder:text-faint focus:border-clay focus:outline-none";
+    "mt-2 w-full rounded-xl border-2 border-line bg-surface px-4 py-3 text-ink placeholder:text-faint transition-colors focus:border-accent focus:outline-none";
 
   return (
-    <label className="block text-sm font-semibold text-ink-2">
+    <label className="block text-base font-bold text-ink-2">
       {label}
-      {required && <span className="text-clay"> *</span>}
+      {required && <span className="text-accent"> *</span>}
       {as === "textarea" ? (
         <textarea
           name={name}

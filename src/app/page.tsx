@@ -19,7 +19,7 @@ const TILT = ["sm:-rotate-1", "sm:rotate-1 sm:mt-8", "sm:-rotate-2 sm:mt-3"];
 export default function HomePage() {
   return (
     <>
-      <Section className="relative overflow-hidden pt-20 sm:pt-28">
+      <Section className="relative overflow-hidden pt-10 sm:pt-14">
         {/* -z-10, not left at auto: an absolute element with z-index:auto
             still paints above a plain static sibling regardless of DOM
             order (see the identical note on Section's own `tint` layer
@@ -32,48 +32,67 @@ export default function HomePage() {
         <Parallax speed={-0.15} className="pointer-events-none absolute top-[58%] right-[6%] hidden sm:block">
           <IconRing className="spin-slow h-24 w-24 text-ink/15" />
         </Parallax>
-        {/* Hero illustration, replacing the old small IconHeart at this
-            spot — lg+ only (not md, like the icon it replaces): it needs
-            more clearance from the hero text column and the two chat
-            bubbles than a h-12 icon ever did. Sized to the traced
-            artwork's own viewBox ratio (824:1464 ≈ 0.563) rather than a
-            round Tailwind size, so the SVG's default xMidYMid-meet
-            scaling fills its box exactly instead of centring inside
-            unused letterbox space on one axis. */}
-        <Parallax speed={0.18} className="pointer-events-none absolute top-[22%] left-[1%] hidden lg:block">
-          <LinocutIllustration className="h-64 w-36" />
-        </Parallax>
         <Parallax speed={-0.1} className="pointer-events-none absolute top-4 left-[38%] hidden lg:block">
           <ChatBubble tone="soft" tilt="-6deg">
             no strangers here
           </ChatBubble>
         </Parallax>
-        <Parallax speed={0.16} className="pointer-events-none absolute top-[70%] left-[10%] hidden sm:block">
+        {/* bottom-anchored, not a top-% position: this used to sit at
+            top-[70%], which worked when the hero was taller (more top
+            padding, a three-line lede). With the padding cut and the
+            two-column layout freeing up vertical space, 70% down landed
+            on top of the lede's last line at sm/md widths — verified,
+            not assumed, by actually checking 820px. Anchoring to the
+            section's own (untouched) bottom padding instead means it
+            can't drift into content above it as that content reflows. */}
+        <Parallax speed={0.16} className="pointer-events-none absolute bottom-10 left-[10%] hidden sm:block">
           <ChatBubble tone="navy" tilt="4deg">
             it&apos;s a match
           </ChatBubble>
         </Parallax>
 
-        <Container className="relative">
-          <Eyebrow>{memberHome.eyebrow}</Eyebrow>
-          <SplitReveal
-            as="h1"
-            text={memberHome.h1}
-            className="max-w-3xl text-7xl sm:text-8xl md:text-9xl"
-          />
-          <Reveal delay={120}>
-            <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
-              {memberHome.lede}
-            </p>
-          </Reveal>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Button href={memberHome.primaryCta.href} external>
-              {memberHome.primaryCta.label}
-            </Button>
-            <Button href={memberHome.secondaryCta.href} variant="secondary">
-              {memberHome.secondaryCta.label}
-            </Button>
-            <IconDots className="floaty-c hidden h-10 w-10 text-accent sm:block" />
+        {/* wide (max-w-6xl, not the reading-width max-w-3xl default): a
+            real two-column split needs the room — at the default reading
+            width, half a column is too narrow for either the text or the
+            illustration to work. Single column below lg (illustration
+            hidden entirely there, same as before) — tested at 820px
+            forcing the illustration visible in the earlier absolute-
+            positioned version and it directly overlapped the h1; a grid
+            column can't overlap by construction, but lg is still where
+            there's actually enough width for both sides to breathe. */}
+        <Container wide className="relative">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <Eyebrow>{memberHome.eyebrow}</Eyebrow>
+              <SplitReveal
+                as="h1"
+                text={memberHome.h1}
+                className="text-7xl sm:text-8xl lg:text-7xl xl:text-8xl"
+              />
+              <Reveal delay={120}>
+                <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
+                  {memberHome.lede}
+                </p>
+              </Reveal>
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <Button href={memberHome.primaryCta.href} external>
+                  {memberHome.primaryCta.label}
+                </Button>
+                <Button href={memberHome.secondaryCta.href} variant="secondary">
+                  {memberHome.secondaryCta.label}
+                </Button>
+                <IconDots className="floaty-c hidden h-10 w-10 text-accent sm:block" />
+              </div>
+            </div>
+
+            {/* Half the row on lg+ (the grid column itself is the "half
+                the width" — sizing the SVG to a fixed width inside it
+                rather than fighting the column for space), hidden below
+                lg. h-auto keeps the traced artwork's own 824:1464 aspect
+                ratio intact rather than stretching it. */}
+            <Parallax speed={0.18} className="hidden justify-self-center lg:block">
+              <LinocutIllustration className="h-auto w-full max-w-sm" />
+            </Parallax>
           </div>
         </Container>
       </Section>

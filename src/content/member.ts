@@ -19,7 +19,7 @@ export const memberHome = {
   h1: "Meet people from the group *you're already in*",
   lede:
     "Cohorta takes a community you're already part of and gives it a place to actually meet up — for dating, for friendship, for turning up to the next thing. Nobody outside your group gets in. Nobody in it can see what you're here for.",
-  primaryCta: { href: appUrl, label: "Got a code? Get started", external: true },
+  primaryCta: { href: appUrl, label: "Get started", external: true },
   secondaryCta: { href: "/how-it-works", label: "See how it works" },
   pillars: [
     {

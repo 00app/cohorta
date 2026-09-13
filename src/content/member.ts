@@ -63,25 +63,27 @@ export const howItWorks = {
   h1: "Nothing to download. *About ten minutes* to set up.",
   lede:
     "Cohorta is a web app, not something from an app store. That trips a few people up the first time, so here's the whole thing, upfront.",
+  // No leading "1. " etc — how-it-works/page.tsx renders the number as its
+  // own circular badge above each title, not as text inside it.
   steps: [
     {
-      title: "1. Get a code from your group",
+      title: "Get a code from your group",
       body: "Every Cohorta community starts with a code, shared by the person who runs your group. Without one, there's no way in — that's deliberate. It's what keeps this to people from your community, not the whole internet.",
     },
     {
-      title: "2. Go to cohorta.app and enter it",
+      title: "Go to cohorta.app and enter it",
       body: "Type in your code and you're straight into setting up your profile.",
     },
     {
-      title: "3. Build your profile — about five minutes",
+      title: "Build your profile — about five minutes",
       body: "You'll need four photos and a short bit about yourself (we call it 'At a glance'). Have a think about which photos you want before you start — that's the bit people usually pause on.",
     },
     {
-      title: "4. Say yes to adding it to your home screen",
+      title: "Say yes to adding it to your home screen",
       body: "You'll be asked whether to add Cohorta to your home screen. Say yes. Until you do, your phone has nowhere to send a notification from, so you won't know if someone's messaged you. After that, it opens like any other app, from its own icon.",
     },
     {
-      title: "5. Have a look at who's nearby",
+      title: "Have a look at who's nearby",
       body: "Discover shows you people from your group, near you. From there it's the usual things — a look, a message, meeting up.",
     },
   ],

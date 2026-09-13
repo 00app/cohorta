@@ -45,7 +45,19 @@ export default function HowItWorksPage() {
           {howItWorks.steps.map((step, i) => (
             <Reveal key={step.title} delay={200 + i * 90} className={OFFSET[i % OFFSET.length]}>
               <Card>
-                <h2 className="text-2xl">{step.title}</h2>
+                {/* Badge reveals first, heading second — two Reveals nested
+                    inside the card's own (already-triggered) one, staggered
+                    by a short internal delay rather than a separate
+                    viewport trigger, so they read as one small sequence
+                    inside an already-arriving card, not a second entrance. */}
+                <Reveal>
+                  <span className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-ink text-sm font-black text-white">
+                    {i + 1}
+                  </span>
+                </Reveal>
+                <Reveal delay={100}>
+                  <h2 className="mt-4 text-3xl">{step.title}</h2>
+                </Reveal>
                 <p className="mt-3 text-lg text-ink-2">{step.body}</p>
               </Card>
             </Reveal>

@@ -8,7 +8,7 @@
 // explicit strokes (var(--accent) / var(--ink)) rather than currentColor,
 // since the point here is the two-colour misprint itself, not a mark
 // that recolours with surrounding text.
-export function LogoMark({ className = "" }: { className?: string }) {
+function LogoMark({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
       <filter id="logoRough" x="-30%" y="-30%" width="160%" height="160%">

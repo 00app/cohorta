@@ -13,18 +13,16 @@ export function ChatBubble({
   children,
   tone = "pink",
   tilt = "-4deg",
-  className = "",
 }: {
   children: ReactNode;
   tone?: keyof typeof TONES;
   tilt?: string;
-  className?: string;
 }) {
   const { bubble, tail } = TONES[tone];
   return (
     <div
       aria-hidden="true"
-      className={`bob-bubble relative ${className}`}
+      className="bob-bubble relative"
       style={{ "--bubble-tilt": tilt } as React.CSSProperties}
     >
       <div

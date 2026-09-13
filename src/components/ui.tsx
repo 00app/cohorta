@@ -150,12 +150,10 @@ export function Card({
 export function Section({
   children,
   className = "",
-  id,
   tint = false,
 }: {
   children: ReactNode;
   className?: string;
-  id?: string;
   // Renders the bg-surface-2 tint as its own masked backdrop layer instead
   // of a plain background-color on the section itself. A flat color on the
   // section would cut off dead straight at its top/bottom edge — exactly
@@ -166,7 +164,7 @@ export function Section({
   tint?: boolean;
 }) {
   return (
-    <section id={id} className={`relative py-20 sm:py-32 ${className}`}>
+    <section className={`relative py-20 sm:py-32 ${className}`}>
       {tint && (
         // -z-10, not just "no z-index": a position:absolute element with
         // z-index:auto still paints *above* any plain static sibling

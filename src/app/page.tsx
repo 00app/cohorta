@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Container, Section, Eyebrow, Button, Card } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
-import { IconSparkle, IconRing, IconBubble, IconHeart, IconDots } from "@/components/icons";
+import { IconSparkle, IconRing, IconBubble, IconDots } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
+import { LinocutIllustration } from "@/components/linocut-illustration";
 import { memberHome } from "@/content/member";
 
 export const metadata: Metadata = {
@@ -24,8 +25,16 @@ export default function HomePage() {
         <Parallax speed={-0.15} className="pointer-events-none absolute top-[58%] right-[6%] hidden sm:block">
           <IconRing className="spin-slow h-24 w-24 text-ink/15" />
         </Parallax>
-        <Parallax speed={0.18} className="pointer-events-none absolute top-[38%] left-[3%] hidden md:block">
-          <IconHeart className="heart-pulse h-12 w-12 text-accent/40" />
+        {/* Hero illustration, replacing the old small IconHeart at this
+            spot — lg+ only (not md, like the icon it replaces): it needs
+            more clearance from the hero text column and the two chat
+            bubbles than a h-12 icon ever did. Sized to the traced
+            artwork's own viewBox ratio (824:1464 ≈ 0.563) rather than a
+            round Tailwind size, so the SVG's default xMidYMid-meet
+            scaling fills its box exactly instead of centring inside
+            unused letterbox space on one axis. */}
+        <Parallax speed={0.18} className="pointer-events-none absolute top-[22%] left-[1%] hidden lg:block">
+          <LinocutIllustration className="h-64 w-36" />
         </Parallax>
         <Parallax speed={-0.1} className="pointer-events-none absolute top-4 left-[38%] hidden lg:block">
           <ChatBubble tone="soft" tilt="-6deg">

@@ -337,6 +337,55 @@
   }
 }
 
+/* Hero linocut illustration (components/linocut-illustration.tsx) — each
+   group gets its own axis and its own period, on purpose: a bird bobbing
+   in lockstep with a heart pulsing in lockstep with a stem swaying reads
+   as one rigid object animating, not four things independently alive.
+   Different, deliberately non-common-multiple durations (4.5s/5.5s/7s/8s)
+   mean the four drift in and out of phase with each other continuously
+   rather than ever repeating the same combined pose. */
+@keyframes lc-bird-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+}
+@keyframes lc-heart-wash-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.025);
+  }
+}
+/* Outline only — the hand-sketch registration line — gets a looser,
+   slower wobble than the wash beneath it: it's meant to read as a
+   separate, slightly-off pass, not a stroke rigidly tracing the fill. */
+@keyframes lc-heart-outline-wobble {
+  0%,
+  50%,
+  100% {
+    transform: rotate(-0.4deg);
+  }
+  25%,
+  75% {
+    transform: rotate(0.6deg);
+  }
+}
+@keyframes lc-stem-sway {
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
 /* Grain overlay (components/grain-overlay.tsx): a fixed, full-viewport
    noise layer, multiplied over the whole page. Tinted brick rather than
    neutral black/grey — reads as "texture in this palette" rather than
@@ -395,5 +444,29 @@
   .heart-pulse {
     animation: heart-pulse 2.6s ease-in-out infinite;
     transform-origin: 50% 62%;
+  }
+  /* transform-box: fill-box so transform-origin resolves against each
+     group's own rendered bounding box (its silhouette), not the SVG
+     document's 0,0 origin — without it these would swing from a corner
+     hundreds of units away instead of pivoting on themselves. */
+  .lc-bird-bob {
+    animation: lc-bird-bob 4.5s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  .lc-heart-wash-pulse {
+    animation: lc-heart-wash-pulse 5.5s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  .lc-heart-outline-wobble {
+    animation: lc-heart-outline-wobble 7s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+  .lc-stem-sway {
+    animation: lc-stem-sway 8s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
   }
 }

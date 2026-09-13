@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Container, Section, Eyebrow } from "@/components/ui";
 
-export const metadata: Metadata = { title: "Terms" };
+export const metadata: Metadata = {
+  title: "Terms",
+  description: "Cohorta's terms of service — billing, eligibility, and acceptable use.",
+  alternates: { canonical: "/terms" },
+};
 
 export default function TermsPage() {
   return (

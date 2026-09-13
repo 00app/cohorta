@@ -4,7 +4,12 @@ import { SplitReveal } from "@/components/motion";
 import { applyPage } from "@/content/owner";
 import { ApplyForm } from "./apply-form";
 
-export const metadata: Metadata = { title: "Talk to us" };
+export const metadata: Metadata = {
+  title: "Talk to us",
+  description:
+    "Tell us about your group. Ten minutes on the phone is usually enough to know if Cohorta is worth your time.",
+  alternates: { canonical: "/for-communities/apply" },
+};
 
 export default function ApplyPage() {
   return (

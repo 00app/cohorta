@@ -6,7 +6,12 @@ import { IconHeart, IconDots } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
 import { trust } from "@/content/member";
 
-export const metadata: Metadata = { title: "Trust & privacy" };
+export const metadata: Metadata = {
+  title: "Trust & privacy",
+  description:
+    "The person who runs your group can't see any of this. How Cohorta keeps your activity private from group owners and everyone else.",
+  alternates: { canonical: "/trust" },
+};
 
 const OFFSET = [
   "sm:-rotate-1",

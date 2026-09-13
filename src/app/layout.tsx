@@ -41,13 +41,46 @@ export const metadata: Metadata = {
     template: seo.titleTemplate,
   },
   description: seo.description,
+  keywords: seo.keywords,
   applicationName: siteName,
+  authors: [{ name: siteName }],
+  creator: siteName,
   // Pre-launch stealth: nothing here should be indexed until isLaunched
   // flips to true (see src/lib/config.ts). robots.ts mirrors this for
   // robots.txt and sitemap.ts is suppressed the same way.
   robots: isLaunched
     ? { index: true, follow: true }
     : { index: false, follow: false, nocache: true },
+  // Points every page at its own canonical URL — each page overrides just
+  // the pathname via its own alternates.canonical (relative, resolved
+  // against metadataBase), root layout supplies the site root as the
+  // fallback for any page that doesn't.
+  alternates: { canonical: "/" },
+  // og:image/twitter:image come from opengraph-image.tsx/twitter-image.tsx
+  // via Next's file-convention — no need to list them here, Next wires the
+  // right <meta> tags up itself. Link-preview tags, not indexing: safe to
+  // ship pre-launch since robots above is what actually blocks crawlers.
+  openGraph: {
+    type: "website",
+    locale: seo.locale,
+    url: siteUrl,
+    siteName,
+    title: seo.defaultTitle,
+    description: seo.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seo.defaultTitle,
+    description: seo.description,
+  },
+  // favicon.ico keeps getting auto-injected by Next's own file-convention
+  // handling regardless of this block (confirmed live) — icon.svg needed
+  // to be listed explicitly, though: once any `icons` key is set, Next
+  // stopped auto-adding it alongside favicon.ico.
+  icons: {
+    icon: "/icon.svg",
+    apple: "/apple-icon",
+  },
 };
 
 // Light mode only, by design brief: pin color-scheme so browser chrome

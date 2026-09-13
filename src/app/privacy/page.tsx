@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Container, Section, Eyebrow } from "@/components/ui";
 
-export const metadata: Metadata = { title: "Privacy" };
+export const metadata: Metadata = {
+  title: "Privacy",
+  description: "Cohorta's privacy policy — what's collected, how it's stored, and your data rights.",
+  alternates: { canonical: "/privacy" },
+};
 
 export default function PrivacyPage() {
   return (

@@ -4,7 +4,12 @@ import { Reveal, SplitReveal, Parallax } from "@/components/motion";
 import { IconRing } from "@/components/icons";
 import { faq } from "@/content/member";
 
-export const metadata: Metadata = { title: "FAQ" };
+export const metadata: Metadata = {
+  title: "FAQ",
+  description:
+    "Questions people actually ask about Cohorta — cost, privacy, signup, and how it works.",
+  alternates: { canonical: "/faq" },
+};
 
 export default function FaqPage() {
   return (

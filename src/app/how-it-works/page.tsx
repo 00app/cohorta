@@ -6,7 +6,12 @@ import { IconRing, IconSparkle } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
 import { howItWorks } from "@/content/member";
 
-export const metadata: Metadata = { title: "How it works" };
+export const metadata: Metadata = {
+  title: "How it works",
+  description:
+    "Nothing to download, about ten minutes to set up. Here's exactly how Cohorta works, from your group's code to your first match.",
+  alternates: { canonical: "/how-it-works" },
+};
 
 // Alternating indent + tilt so the step list reads as placed, not ruled off
 // with a straight edge — same "broken grid" language as the homepage.

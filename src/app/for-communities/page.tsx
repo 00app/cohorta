@@ -6,7 +6,12 @@ import { IconSparkle, IconBubble } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
 import { ownerHome } from "@/content/owner";
 
-export const metadata: Metadata = { title: "For group owners" };
+export const metadata: Metadata = {
+  title: "For group owners",
+  description:
+    "Stop being the unofficial matchmaker of your own group. Bring Cohorta to your community with zero admin and zero cost.",
+  alternates: { canonical: "/for-communities" },
+};
 
 const TILT = [
   "sm:-rotate-1",

@@ -11,6 +11,9 @@ import { memberHome } from "@/content/member";
 
 export const metadata: Metadata = {
   title: "No strangers. And nobody watching.",
+  description:
+    "Meet people from the group you're already in — for dating, friendship, or whatever's next. No strangers, and nobody watching.",
+  alternates: { canonical: "/" },
 };
 
 // Per-card offset/rotation so grids read as scattered and hand-placed

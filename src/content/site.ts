@@ -53,4 +53,19 @@ export const seo = {
   titleTemplate: "%s — Cohorta",
   description:
     "Cohorta turns the community you're already part of into somewhere you can actually meet people — for dating, friendship, and the next thing that's on. No strangers. Nobody watching.",
+  // Broad, honest terms a searcher might actually type — not stuffed, and
+  // nothing implying a live launch this site's own robots/sitemap gating
+  // (see src/lib/config.ts) doesn't back up yet.
+  keywords: [
+    "Cohorta",
+    "community dating app",
+    "meet people in your group",
+    "private dating app",
+    "friendship app",
+    "group dating",
+  ],
+  // Used by opengraph-image.tsx / twitter-image.tsx as the alt text for
+  // the generated share-card image.
+  ogImageAlt: "Cohorta — no strangers, and nobody watching",
+  locale: "en_GB",
 };

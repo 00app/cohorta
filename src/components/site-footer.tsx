@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Container } from "./ui";
 import { Logo } from "./logo";
 import { Parallax } from "./motion";
-import { IconHeartFilled } from "./icons";
+import { ScribbleHeart } from "./scribble-heart";
 import { footer } from "@/content/site";
 
 export function SiteFooter() {
@@ -32,7 +32,7 @@ export function SiteFooter() {
           without needing photography or a mascot character of our own. */}
       <div className="relative overflow-hidden py-16 text-center sm:py-20">
         <Parallax speed={0.06} className="pointer-events-none flex justify-center">
-          <IconHeartFilled className="heart-pulse h-32 w-32 text-accent sm:h-44 sm:w-44" />
+          <ScribbleHeart className="heart-pulse h-32 w-32 text-accent sm:h-44 sm:w-44" />
         </Parallax>
         {/* Heading font (Caacupe One), not body — this is the one big
             sign-off statement, so it should read like a heading. font-normal

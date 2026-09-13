@@ -5,6 +5,7 @@ import { IconSparkle, IconRing, IconBubble, IconDots } from "@/components/icons"
 import { ChatBubble } from "@/components/chat-bubble";
 import { LinocutIllustration } from "@/components/linocut-illustration";
 import { InkWash } from "@/components/ink-wash";
+import { ScribbleHeartCluster, ScribbleHeartLoose } from "@/components/scribble-heart";
 import { memberHome } from "@/content/member";
 
 export const metadata: Metadata = {
@@ -36,6 +37,22 @@ export default function HomePage() {
           <ChatBubble tone="soft" tilt="-6deg">
             no strangers here
           </ChatBubble>
+        </Parallax>
+        {/* Placement is a judgment call, not a spec: this was meant to
+            replace a single floating heart icon that used to sit at
+            top-[38%] left-[3%], but that spot no longer exists — the hero
+            was rebuilt into the two-column layout below since then, and a
+            first attempt at a top-% position landed directly on top of
+            the h1 (verified live, not assumed — checked at 1026px).
+            Bottom-anchored instead, same reasoning as the "it's a match"
+            bubble's own comment below: anchoring to the section's actual
+            bottom, not a %-height guess, survives the text column's
+            height changing across breakpoints. lg:hidden because the
+            illustration owns the right side from lg up — this is only
+            for the single-column range (md to just below lg) where that
+            side is empty margin, confirmed live at 800px. */}
+        <Parallax speed={0.12} className="pointer-events-none absolute bottom-16 right-[6%] hidden md:block lg:hidden">
+          <ScribbleHeartCluster className="h-20 w-20" />
         </Parallax>
         {/* bottom-anchored, not a top-% position: this used to sit at
             top-[70%], which worked when the hero was taller (more top
@@ -121,6 +138,13 @@ export default function HomePage() {
             same group as you
           </ChatBubble>
         </Parallax>
+        {/* Quiet watermark behind the heading, not a foreground mark —
+            opacity-10 and sized big enough to read as texture rather than
+            a shape competing with the text on top of it. Static (no
+            Parallax/Reveal wrapper): ScribbleHeartLoose is already a
+            still illustration, same reasoning InkWash uses for its own
+            background texture. */}
+        <ScribbleHeartLoose className="pointer-events-none absolute -right-10 top-1/2 hidden h-72 w-72 -translate-y-1/2 opacity-10 sm:block lg:h-80 lg:w-80" />
         <Container className="relative max-w-2xl">
           <SplitReveal as="h2" text={memberHome.honest.heading} className="text-5xl sm:text-6xl" />
           <Reveal delay={120}>

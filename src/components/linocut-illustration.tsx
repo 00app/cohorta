@@ -44,14 +44,10 @@ export function LinocutIllustration(props: SVGProps<SVGSVGElement>) {
       fill="none"
       {...props}
     >
-      <defs>
-        <pattern id="lc-hatch-dark" width="64" height="64" patternUnits="userSpaceOnUse">
-          <image href="/textures/crosshatch.png" width="64" height="64" />
-        </pattern>
-        <pattern id="lc-hatch-light" width="64" height="64" patternUnits="userSpaceOnUse">
-          <image href="/textures/crosshatch-light.png" width="64" height="64" />
-        </pattern>
-      </defs>
+      {/* lc-hatch-dark/light are defined once, globally, in
+          components/texture-defs.tsx (mounted in layout.tsx) — icons.tsx
+          references the same two patterns, so this file no longer
+          carries its own copy. */}
 
       {/* Loose ink-splatter dots, scattered near the heart - the one
           "hand let the brush go" mark the wash+outline pair alone don't

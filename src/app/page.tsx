@@ -4,6 +4,7 @@ import { Reveal, SplitReveal, Parallax } from "@/components/motion";
 import { IconSparkle, IconRing, IconBubble, IconDots } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
 import { LinocutIllustration } from "@/components/linocut-illustration";
+import { InkWash } from "@/components/ink-wash";
 import { memberHome } from "@/content/member";
 
 export const metadata: Metadata = {
@@ -19,6 +20,12 @@ export default function HomePage() {
   return (
     <>
       <Section className="relative overflow-hidden pt-20 sm:pt-28">
+        {/* -z-10, not left at auto: an absolute element with z-index:auto
+            still paints above a plain static sibling regardless of DOM
+            order (see the identical note on Section's own `tint` layer
+            in components/ui.tsx) — without this the wash would sit on
+            top of the hero copy instead of behind it. */}
+        <InkWash className="pointer-events-none absolute inset-0 -z-10 h-full w-full" />
         <Parallax speed={0.22} className="pointer-events-none absolute top-24 right-[12%] hidden sm:block">
           <IconSparkle className="twinkle h-16 w-16 text-accent" />
         </Parallax>

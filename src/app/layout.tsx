@@ -31,7 +31,6 @@ import { SiteFooter } from "@/components/site-footer";
 import { AmbientBackground } from "@/components/ambient-background";
 import { GrainOverlay } from "@/components/grain-overlay";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { TextureDefs } from "@/components/texture-defs";
 import { isLaunched, siteUrl, siteName } from "@/lib/config";
 import { seo } from "@/content/site";
 
@@ -76,7 +75,6 @@ export default function RootLayout({
       className={`${fraunces.variable} ${libreFranklin.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-ground text-ink">
-        <TextureDefs />
         <SmoothScroll />
         <AmbientBackground />
         <GrainOverlay />

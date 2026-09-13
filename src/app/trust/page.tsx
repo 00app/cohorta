@@ -33,7 +33,7 @@ export default function TrustPage() {
         <Eyebrow>{trust.eyebrow}</Eyebrow>
         <SplitReveal as="h1" text={trust.h1} className="max-w-2xl text-7xl sm:text-8xl" />
         <Reveal delay={120}>
-          <p className="mt-6 max-w-xl text-xl font-medium text-muted sm:text-2xl">
+          <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
             {trust.lede}
           </p>
         </Reveal>
@@ -43,7 +43,7 @@ export default function TrustPage() {
             <Reveal key={point.title} delay={200 + i * 90} className={OFFSET[i % OFFSET.length]}>
               <Card>
                 <h2 className="text-2xl">{point.title}</h2>
-                <p className="mt-3 text-lg text-muted">{point.body}</p>
+                <p className="mt-3 text-lg text-ink-2">{point.body}</p>
               </Card>
             </Reveal>
           ))}

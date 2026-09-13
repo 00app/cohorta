@@ -82,7 +82,7 @@ function Field({
     "mt-2 w-full rounded-xl border-2 border-line bg-surface px-4 py-3 text-ink placeholder:text-faint transition-colors focus:border-accent focus:outline-none";
 
   return (
-    <label className="block text-base font-bold text-ink-2">
+    <label className="block text-base font-bold text-ink">
       {label}
       {required && <span className="text-accent"> *</span>}
       {as === "textarea" ? (

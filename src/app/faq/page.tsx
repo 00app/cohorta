@@ -22,7 +22,7 @@ export default function FaqPage() {
             <Reveal key={item.q} delay={150 + Math.min(i, 4) * 60}>
               <div className="py-7">
                 <dt className="text-xl font-black">{item.q}</dt>
-                <dd className="mt-2 text-lg text-muted">{item.a}</dd>
+                <dd className="mt-2 text-lg text-ink-2">{item.a}</dd>
               </div>
             </Reveal>
           ))}

@@ -9,7 +9,7 @@ export default function TermsPage() {
       <Container>
         <Eyebrow>Legal</Eyebrow>
         <h1 className="text-7xl sm:text-8xl">Terms of service</h1>
-        <p className="mt-6 max-w-xl text-lg text-muted">
+        <p className="mt-6 max-w-xl text-lg text-ink-2">
           This page is a placeholder. Replace it with Cohorta&apos;s full
           terms before this site goes live — including the first-month-free
           billing terms already published for the app, membership/code

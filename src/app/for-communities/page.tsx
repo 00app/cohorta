@@ -34,7 +34,7 @@ export default function ForCommunitiesPage() {
           <Eyebrow>{ownerHome.eyebrow}</Eyebrow>
           <SplitReveal as="h1" text={ownerHome.h1} className="max-w-2xl text-7xl sm:text-8xl" />
           <Reveal delay={120}>
-            <p className="mt-6 max-w-xl text-xl font-medium text-muted sm:text-2xl">
+            <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
               {ownerHome.lede}
             </p>
           </Reveal>
@@ -53,7 +53,7 @@ export default function ForCommunitiesPage() {
               <Reveal key={point.title} delay={i * 110} className={TILT[i % TILT.length]}>
                 <Card>
                   <h2 className="text-2xl">{point.title}</h2>
-                  <p className="mt-3 text-base text-muted">{point.body}</p>
+                  <p className="mt-3 text-base text-ink-2">{point.body}</p>
                 </Card>
               </Reveal>
             ))}
@@ -69,7 +69,7 @@ export default function ForCommunitiesPage() {
             className="max-w-2xl text-5xl sm:text-6xl"
           />
           <Reveal delay={120}>
-            <p className="mt-4 max-w-2xl text-lg text-muted">
+            <p className="mt-4 max-w-2xl text-lg text-ink-2">
               {ownerHome.honest.body}
             </p>
           </Reveal>

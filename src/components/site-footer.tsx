@@ -52,7 +52,7 @@ export function SiteFooter() {
 
           {footer.columns.map((col) => (
             <div key={col.heading}>
-              <p className="text-xs font-extrabold tracking-[0.15em] text-faint uppercase">
+              <p className="text-xs font-extrabold tracking-[0.15em] text-ink uppercase">
                 {col.heading}
               </p>
               <ul className="mt-4 space-y-3">
@@ -71,7 +71,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <p className="mt-12 text-sm font-medium text-faint">
+        <p className="mt-12 text-sm font-medium text-ink">
           © {new Date().getFullYear()} {footer.copyrightName}. All rights
           reserved.
         </p>

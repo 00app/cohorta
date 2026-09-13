@@ -46,7 +46,7 @@ export default function HomePage() {
             className="max-w-3xl text-7xl sm:text-8xl md:text-9xl"
           />
           <Reveal delay={120}>
-            <p className="mt-6 max-w-xl text-xl font-medium text-muted sm:text-2xl">
+            <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
               {memberHome.lede}
             </p>
           </Reveal>
@@ -69,7 +69,7 @@ export default function HomePage() {
               <Reveal key={pillar.title} delay={i * 120} className={TILT[i % TILT.length]}>
                 <Card>
                   <h3 className="text-2xl">{pillar.title}</h3>
-                  <p className="mt-3 text-base text-muted">{pillar.body}</p>
+                  <p className="mt-3 text-base text-ink-2">{pillar.body}</p>
                 </Card>
               </Reveal>
             ))}
@@ -89,7 +89,7 @@ export default function HomePage() {
         <Container className="relative max-w-2xl">
           <SplitReveal as="h2" text={memberHome.honest.heading} className="text-5xl sm:text-6xl" />
           <Reveal delay={120}>
-            <p className="mt-4 text-lg text-muted">{memberHome.honest.body}</p>
+            <p className="mt-4 text-lg text-ink-2">{memberHome.honest.body}</p>
           </Reveal>
         </Container>
       </Section>
@@ -113,7 +113,7 @@ export default function HomePage() {
                       {i + 1}
                     </span>
                     <h3 className="mt-4 text-xl">{step.title}</h3>
-                    <p className="mt-2 text-base text-muted">{step.body}</p>
+                    <p className="mt-2 text-base text-ink-2">{step.body}</p>
                   </Card>
                 </li>
               </Reveal>

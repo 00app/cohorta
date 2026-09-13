@@ -13,7 +13,7 @@ export default function ApplyPage() {
         <Eyebrow>{applyPage.eyebrow}</Eyebrow>
         <SplitReveal as="h1" text={applyPage.h1} className="text-7xl sm:text-8xl" />
         <Reveal delay={120}>
-          <p className="mt-6 text-xl font-medium text-muted sm:text-2xl">
+          <p className="mt-6 text-xl font-medium text-ink-2 sm:text-2xl">
             {applyPage.lede}
           </p>
         </Reveal>

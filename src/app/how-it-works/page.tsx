@@ -36,7 +36,7 @@ export default function HowItWorksPage() {
         <Eyebrow>{howItWorks.eyebrow}</Eyebrow>
         <SplitReveal as="h1" text={howItWorks.h1} className="max-w-2xl text-7xl sm:text-8xl" />
         <Reveal delay={120}>
-          <p className="mt-6 max-w-xl text-xl font-medium text-muted sm:text-2xl">
+          <p className="mt-6 max-w-xl text-xl font-medium text-ink-2 sm:text-2xl">
             {howItWorks.lede}
           </p>
         </Reveal>
@@ -46,13 +46,13 @@ export default function HowItWorksPage() {
             <Reveal key={step.title} delay={200 + i * 90} className={OFFSET[i % OFFSET.length]}>
               <Card>
                 <h2 className="text-2xl">{step.title}</h2>
-                <p className="mt-3 text-lg text-muted">{step.body}</p>
+                <p className="mt-3 text-lg text-ink-2">{step.body}</p>
               </Card>
             </Reveal>
           ))}
         </ol>
 
-        <p className="mt-10 max-w-xl text-base text-faint">
+        <p className="mt-10 max-w-xl text-base text-ink">
           {howItWorks.faqNote}
         </p>
       </Container>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container, Section, Eyebrow, Button, Card } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
+import { scatterTilt } from "@/lib/scatter-tilt";
 import { IconSparkle, IconBubble } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
 import { ownerHome } from "@/content/owner";
@@ -50,7 +51,7 @@ export default function ForCommunitiesPage() {
         <Container>
           <div className="grid gap-6 sm:grid-cols-2">
             {ownerHome.points.map((point, i) => (
-              <Reveal key={point.title} delay={i * 110} className={TILT[i % TILT.length]}>
+              <Reveal key={point.title} delay={i * 110} className={scatterTilt(TILT, i)}>
                 <Card>
                   <h2 className="text-2xl">{point.title}</h2>
                   <p className="mt-3 text-base text-ink-2">{point.body}</p>

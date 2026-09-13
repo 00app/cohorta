@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container, Section, Eyebrow, Button, Card } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
+import { scatterTilt } from "@/lib/scatter-tilt";
 import { IconSparkle, IconRing, IconBubble, IconDots } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
 import { LinocutIllustration } from "@/components/linocut-illustration";
@@ -118,7 +119,7 @@ export default function HomePage() {
         <Container>
           <div className="grid gap-8 sm:grid-cols-3">
             {memberHome.pillars.map((pillar, i) => (
-              <Reveal key={pillar.title} delay={i * 120} className={TILT[i % TILT.length]}>
+              <Reveal key={pillar.title} delay={i * 120} className={scatterTilt(TILT, i)}>
                 <Card>
                   <h3 className="text-2xl">{pillar.title}</h3>
                   <p className="mt-3 text-base text-ink-2">{pillar.body}</p>
@@ -165,7 +166,7 @@ export default function HomePage() {
           />
           <ol className="mt-10 grid gap-8 sm:grid-cols-3">
             {memberHome.howItWorksPreview.steps.map((step, i) => (
-              <Reveal key={step.title} delay={150 + i * 120} className={TILT[i % TILT.length]}>
+              <Reveal key={step.title} delay={150 + i * 120} className={scatterTilt(TILT, i)}>
                 <li className="h-full">
                   <Card className="h-full">
                     <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-xl font-black text-accent-ink">

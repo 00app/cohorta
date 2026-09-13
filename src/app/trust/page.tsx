@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container, Section, Eyebrow, Card } from "@/components/ui";
 import { Reveal, SplitReveal, Parallax } from "@/components/motion";
+import { scatterTilt } from "@/lib/scatter-tilt";
 import { IconHeart, IconDots } from "@/components/icons";
 import { ChatBubble } from "@/components/chat-bubble";
 import { trust } from "@/content/member";
@@ -40,7 +41,7 @@ export default function TrustPage() {
 
         <div className="mt-12 space-y-6">
           {trust.points.map((point, i) => (
-            <Reveal key={point.title} delay={200 + i * 90} className={OFFSET[i % OFFSET.length]}>
+            <Reveal key={point.title} delay={200 + i * 90} className={scatterTilt(OFFSET, i)}>
               <Card>
                 <h2 className="text-2xl">{point.title}</h2>
                 <p className="mt-3 text-lg text-ink-2">{point.body}</p>

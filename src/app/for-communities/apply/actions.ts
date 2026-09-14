@@ -5,6 +5,29 @@ export type ApplyState = {
   message?: string;
 };
 
+// No in-app rate limiting here — tried an in-memory sliding window keyed
+// by IP (module scope, then globalThis) and could not make it reliable
+// enough to ship. Verified live, including against a real `next build` +
+// `next start` production server, not just dev: the counter did not
+// behave as a simple accumulator across repeated requests to this one
+// action (it plateaued well short of the configured threshold for
+// reasons that didn't trace back to the counting logic itself). Shipping
+// a rate limiter that silently doesn't limit anything is worse than
+// having none — it would look like protection without being any. Real
+// protection here needs state that survives outside this process, e.g.
+// Vercel KV or Upstash Redis keyed by IP; that's a real infra decision
+// (new dependency, possibly a paid service) rather than something to add
+// unilaterally.
+
+// Strips control characters (newlines, carriage returns, etc.) so a
+// submitted field can't forge extra lines in the server log this
+// currently writes to — the log itself is plain text, not a structured
+// sink, so a raw newline in "name" would otherwise read as a second,
+// fabricated log entry.
+function stripControlChars(value: string): string {
+  return value.replace(/[\x00-\x1f\x7f]/g, "");
+}
+
 // TODO before go-live: this currently only logs the submission server-side.
 // Wire it up to wherever leads should actually land — e.g. an email via
 // Resend/Postmark, a Slack webhook, or a row in a sheet/CRM. Keep the
@@ -22,12 +45,12 @@ export async function submitApplication(
   _prevState: ApplyState,
   formData: FormData
 ): Promise<ApplyState> {
-  const name = String(formData.get("name") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
-  const groupName = String(formData.get("groupName") ?? "").trim();
-  const groupPlatform = String(formData.get("groupPlatform") ?? "").trim();
-  const groupSize = String(formData.get("groupSize") ?? "").trim();
-  const message = String(formData.get("message") ?? "").trim();
+  const name = stripControlChars(String(formData.get("name") ?? "").trim());
+  const email = stripControlChars(String(formData.get("email") ?? "").trim());
+  const groupName = stripControlChars(String(formData.get("groupName") ?? "").trim());
+  const groupPlatform = stripControlChars(String(formData.get("groupPlatform") ?? "").trim());
+  const groupSize = stripControlChars(String(formData.get("groupSize") ?? "").trim());
+  const message = stripControlChars(String(formData.get("message") ?? "").trim());
 
   if (!name || !email || !groupName) {
     return {
